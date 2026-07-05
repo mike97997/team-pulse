@@ -40,7 +40,7 @@ u{cursor:pointer}
 .move:hover{background:#F3F3EF}
 .move .what{flex:1;font-size:.96rem;color:var(--soft)}
 .move .what b{color:var(--ink);font-weight:650}
-.move .why{color:var(--alert);font-weight:650;font-size:.8rem;white-space:nowrap}
+.move .why{color:var(--mute);font-weight:650;font-size:.8rem;white-space:nowrap}
 .move .act{font-size:.8rem;font-weight:650;border:1px solid var(--line);border-radius:7px;padding:5px 12px;background:var(--card);white-space:nowrap;color:var(--ink)}
 .move .act:hover{border-color:var(--ink)}
 .move .act.q{color:var(--soft)}
@@ -49,7 +49,6 @@ u{cursor:pointer}
 .doorlinks{margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:.88rem;color:var(--mute)}
 .doorlinks u{font-weight:600;color:var(--soft)}
 .doorlinks u:hover{color:var(--ink)}
-
 
 /* quiet list */
 .m-h{font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:30px 0 4px}
@@ -356,14 +355,89 @@ body.board-open .head,body.board-open #reconnectBar{padding-left:24px;padding-ri
 .spcfg input:focus{outline:none;border-color:var(--mute)}
 .spredir{font-size:.76rem;color:var(--mute);margin:4px 0 2px;word-break:break-all}
 .spredir code{background:#f0f0ec;padding:1px 5px;border-radius:4px;color:var(--ink)}
+
+/* ===== manage team ===== */
+.tmlist{display:flex;flex-direction:column;gap:6px;margin:6px 0 9px}
+.tmrow{display:flex;align-items:center;gap:9px}
+.tmrow .av{width:26px;height:26px;border-radius:7px;font-size:.6rem}
+.tmrow .tmn{flex:1;font-size:.9rem;color:var(--ink)}
+.tmrow .tmyou{color:var(--mute);font-weight:400}
+.tmrow input[type=color]{width:30px;height:26px;border:1px solid var(--line);border-radius:6px;background:none;padding:1px;cursor:pointer}
+.tmrow .tmx{border:0;background:none;color:var(--mute);font-size:1.15rem;line-height:1;cursor:pointer;padding:0 5px}
+.tmrow .tmx:hover{color:var(--alert)}
+
+/* ===== dashboard landing ===== */
+.pulseline{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-family:var(--mono);font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);margin:2px 0 16px}
+.pulseline b{color:var(--ink)}
+.pulseline .pl-alert{color:var(--alert);display:inline-flex;align-items:center;gap:5px}
+.pulseline .pl-alert .d{width:7px;height:7px;border-radius:50%;background:var(--alert)}
+.pulseline .pl-ok{color:var(--ok)}
+.lookrow{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:6px 0 4px}
+.dsel{font:inherit;font-size:.88rem;padding:8px 11px;border:1px solid var(--line);border-radius:9px;background:var(--card);color:var(--ink);min-width:200px;flex:1;max-width:300px;cursor:pointer}
+.dsel:hover{border-color:var(--mute)}
+.dsel:focus{outline:none;border-color:var(--ink)}
+.viewbtns{display:grid;grid-template-columns:repeat(auto-fit,minmax(172px,1fr));gap:9px;margin:6px 0 4px}
+.vbtn{font-size:.85rem;font-weight:600;color:var(--ink);background:var(--card);border:1px solid var(--line);border-radius:9px;padding:8px 15px;cursor:pointer}
+.vbtn:hover{border-color:var(--ink)}
+.vbtn.solid{background:var(--ink);border-color:var(--ink);color:#fff}
+.vbtn .sub{display:block;font-size:.7rem;font-weight:500;color:var(--mute);margin-top:1px}
+.vbtn.solid .sub{color:#c8cdd8}
+@media(max-width:640px){.dsel{max-width:none}.lookrow .dsel{flex:1 1 100%}}
+
+/* ===== start landing ===== */
+.startwrap{max-width:620px;margin:6vh auto 0;padding:0 8px 50px;display:flex;flex-direction:column;gap:15px}
+.startq{font-size:1.65rem;font-weight:800;letter-spacing:-.02em;color:var(--ink)}
+.swhisper{display:inline-flex;align-items:center;gap:8px;font-size:.93rem;font-weight:600;color:var(--alert);background:none;border:0;padding:0;cursor:pointer;text-align:left}
+.swhisper .d{width:8px;height:8px;border-radius:50%;background:var(--alert);flex:none}
+.swhisper.ok{color:var(--soft);font-weight:500}
+.swhisper:hover{text-decoration:underline}
+.ssbox{position:relative}
+.ssearch{width:100%;font:inherit;font-size:1rem;padding:13px 16px;border:1px solid var(--line);border-radius:11px;background:var(--card);color:var(--ink);box-sizing:border-box}
+.ssearch:focus{outline:none;border-color:var(--ink)}
+.sres{display:none;position:absolute;left:0;right:0;top:calc(100% + 6px);background:var(--card);border:1px solid var(--line);border-radius:11px;box-shadow:0 14px 40px rgba(20,24,32,.12);z-index:40;overflow:hidden}
+.sres.on{display:block}
+.srow{display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-top:1px solid var(--line)}
+.srow:first-child{border-top:0}
+.srow:hover,.srow.on{background:var(--paper)}
+.srow .sl{font-weight:600;color:var(--ink);white-space:nowrap}
+.srow .ss{color:var(--mute);font-size:.82rem;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.srow .st{font-family:var(--mono);font-size:.56rem;font-weight:700;letter-spacing:.12em;color:var(--mute)}
+.snone{padding:12px 14px;color:var(--mute);font-style:italic;font-size:.88rem}
+.startwrap .lookrow{margin:0}
+.startwrap .lookrow .dsel{max-width:none}
+.startwrap .viewbtns{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:2px 0 0}
+.startwrap .vbtn{text-align:left;padding:12px 16px}
+.startwrap .doorlinks{border-top:0;margin-top:0;padding-top:2px}
+@media(max-width:560px){.startwrap{margin-top:2vh}.startwrap .viewbtns{grid-template-columns:1fr}}
+/* obvious way home: clickable brand + a Home chip (hidden on the start page itself) */
+.head h1.brand{cursor:pointer}
+.head h1.brand:hover{text-decoration:underline;text-decoration-thickness:2px;text-underline-offset:5px}
+.homebtn{border:1px solid var(--line);background:var(--card);color:var(--soft);border-radius:8px;padding:5px 12px;font-size:.8rem;font-weight:600;cursor:pointer;margin-left:12px;white-space:nowrap}
+.homebtn:hover{border-color:var(--ink);color:var(--ink)}
+body.on-start .homebtn{display:none}
+
+/* ===== viewer identity + help ===== */
+.swrap{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.dselwho{flex:0 1 auto;min-width:210px;font-size:.85rem;padding:8px 11px}
+.helpbtn{width:26px;height:26px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--soft);font-size:.82rem;font-weight:700;cursor:pointer;line-height:1}
+.helpbtn:hover{border-color:var(--ink);color:var(--ink)}
+.helpbox{max-width:640px}
+.helpbox h3{margin:18px 0 6px;font-size:.95rem}
+.helpbox ul,.helpbox ol{margin:4px 0 10px;padding-left:20px;color:var(--soft);font-size:.9rem;line-height:1.55}
+.helpbox li{margin:4px 0}
+.helpbox li b{color:var(--ink)}
+.helpbox .halert{color:var(--alert);font-weight:700}
+.tcard.click{cursor:pointer}
+.tcard.click:hover{border-color:var(--mute)}
+.tcard.click:hover .tn{text-decoration:underline}
 </style></head>
 <body>
 <div class="wrap">
   <div class="head">
-    <h1>Team Hub.</h1>
+    <h1 class="brand" onclick="go('start')" title="Go to the home screen">Team Pulse.</h1><button class="homebtn" onclick="go('start')" title="Back to the home screen">&#8962; Home</button>
     <span class="today" id="todayDate"></span>
     <div class="hr">
-      <a class="hbtn" id="mylink" href="#" onclick="return openMyTracker(event)">&#8596; My Projects</a>
+      <button class="helpbtn" title="How this works" onclick="openHelp()">?</button>
       <span class="sdot off" id="syncdot" title="Sync — click for details" onclick="openGear()"></span>
       <button class="gear" title="Settings & data" onclick="openGear()">&#9881;</button>
     </div>
@@ -437,16 +511,54 @@ body.board-open .head,body.board-open #reconnectBar{padding-left:24px;padding-ri
       </div>
       <div class="spstatus" id="spstatus"></div>
     </div>
-    <h3>Link to My Projects</h3>
-    <div class="cfgform"><label>My Projects address <input id="cfgMyUrl" placeholder="https://YOURNAME.github.io/tracker/" autocomplete="off" onchange="saveMyUrl()"></label></div>
+    <h3>This device</h3>
+    <div class="cfgform"><label>Who uses this browser? <select id="viewerSel" class="sset" onchange="setViewer(this.value)"></select></label></div>
+    <h3>Manage team</h3>
+    <p class="gintro" style="margin:0 0 6px">Add or remove teammates yourself — no need to ask anyone. Changes sync to everyone.</p>
+    <div id="teamManage" class="tmlist"></div>
+    <button class="btn" onclick="addPersonPrompt()">＋ Add teammate</button>
     <h3>Backups &amp; tools</h3>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn" onclick="exportData()">&#11015; Export backup</button>
       <button class="btn" onclick="document.getElementById('importfile').click()">&#11014; Import / restore</button>
       <input type="file" id="importfile" accept="application/json" style="display:none" onchange="importData(event)">
       <button class="btn" onclick="copyBrief(this)">Copy status brief</button>
-      <button class="btn" onclick="resetData()" style="margin-left:auto">Reset to starting data</button>
+      <button class="btn" onclick="clearAllProjects()">Clear all projects (start fresh)</button>
     </div>
+  </div>
+</div>
+
+<div class="ov" id="helpov" onclick="if(event.target.id==='helpov')closeHelp()">
+  <div class="gbox helpbox">
+    <button class="x" onclick="closeHelp()">&times;</button>
+    <h2>How Team Pulse works</h2>
+    <p class="gintro">One shared board of the projects we&rsquo;re building. <b>Gray means all is fine; <span class="halert">orange</span> means a decision is needed.</b> Sign in with Microsoft once — everything saves and syncs automatically.</p>
+    <h3>Your 30-second habit</h3>
+    <ol>
+      <li><b>Open your page</b> — click your name anywhere, or type it in the search on the home screen.</li>
+      <li><b>＋ Post an update</b> when you make progress — one sentence on where it stands, pick the stage, and paste a link to the work (doc, model, folder, demo).</li>
+      <li>That&rsquo;s it. Posting resets your check-in clock, so nobody has to chase you.</li>
+    </ol>
+    <h3>Owner &amp; Lead — anyone can start a project</h3>
+    <p class="gintro">Every project has an <b>Owner</b> (who it&rsquo;s for — they answer blockers and give the final sign-off) and a <b>Lead</b> (who&rsquo;s building it). <b>Anyone can start a project</b>: click ＋ New project, name it, pick the Lead — you&rsquo;re automatically its Owner. Mike doesn&rsquo;t need to be involved.</p>
+    <h3>Reading the board</h3>
+    <ul>
+      <li><span class="halert">&#9679; NEEDS YOU / NEEDS &lt;NAME&gt;</span> — waiting on that project&rsquo;s <b>owner</b>: an answer to a blocker, a sign-off, or an overdue check-in.</li>
+      <li><b>QUIET</b> — nothing logged for 2+ weeks. Post an update before the nudge finds you 🙂</li>
+      <li><b>Small dot on a card</b> — new since your last visit. The &ldquo;N new since&hellip;&rdquo; pill opens the Activity feed so you can read them.</li>
+      <li><b>Click any project card</b> to open it — the brief, links to the work, and its full history.</li>
+    </ul>
+    <h3>The stages</h3>
+    <p class="gintro"><b>Handed off</b> &rarr; <b>Building</b> (&rarr; <b>Blocked</b> if you&rsquo;re stuck — say so!) &rarr; <b>Confirm round</b> (your partner runs it cold) &rarr; <b>My sign-off</b> (the owner) &rarr; <b>Signed off</b>. <b>On hold</b> = paused on purpose.</p>
+    <h3>Common questions</h3>
+    <ul>
+      <li><b>An amber &ldquo;Reconnect&rdquo; bar appeared.</b> Click it once — that&rsquo;s normal after reopening the browser.</li>
+      <li><b>Can I use my phone or any browser?</b> Yes — sign in with Microsoft and it syncs live.</li>
+      <li><b>Deleted or broke something?</b> Tell Mike — there are backups.</li>
+      <li><b>Quick thought?</b> Press <b>n</b> anywhere to jot it down.</li>
+    </ul>
+    <h3>For Mike (the owner)</h3>
+    <p class="gintro">&ldquo;Your moves&rdquo; shows whatever is waiting on <b>you</b> as an owner — for Mike that&rsquo;s most things; for anyone else, the projects they started. <b>Run the follow-up round</b> chases every overdue check-in in one sitting. Roster, sync, and backups live in ⚙. A project can only be <b>Signed off</b> after the confirm partner runs it cold on a real deal — that&rsquo;s what makes &ldquo;done&rdquo; mean done.</p>
   </div>
 </div>
 
@@ -459,8 +571,9 @@ const CFGKEY='dh_cfg';
 function loadCfg(){ try{ return JSON.parse(localStorage.getItem(CFGKEY))||{}; }catch(e){ return {}; } }
 function saveCfg(c){ try{ localStorage.setItem(CFGKEY, JSON.stringify(c)); }catch(e){} }
 let CONFIG=Object.assign({myUrl:"", spClient:"1293f372-482b-49dc-9aa3-73f2621b28a2", spTenant:"d9bb070e-1f8c-44cc-b540-bf198b788c5a", spSite:"isourceout.sharepoint.com/sites/Projecthub", spOn:false}, loadCfg());
+if(!CONFIG.myUrl)CONFIG.myUrl="https://mike97997.github.io/tracker/";
 function saveMyUrl(){ const raw=document.getElementById('cfgMyUrl').value; const u=normUrl(raw); if(u===null){ toast('That doesn\u2019t look like a web address \u2014 it should start with https://'); return; } CONFIG.myUrl=u; document.getElementById('cfgMyUrl').value=u; saveCfg(CONFIG); toast(u?'Linked to My Projects':'Link cleared'); }
-function openMyTracker(e){ if(e)e.preventDefault(); if(CONFIG.myUrl){ window.open(CONFIG.myUrl,'_blank'); } else { setTab('data',document.querySelector('.tab[data-t="data"]')); toast('Paste your My Projects address here first'); } return false; }
+function openMyTracker(e){ if(e)e.preventDefault(); if(CONFIG.myUrl){ window.open(CONFIG.myUrl,'_blank'); } else { openGear(); toast('Paste your My Projects address here first'); } return false; }
 
 /* ===================== local store ===================== */
 const KEY='dh_v3';
@@ -483,15 +596,27 @@ function relTxt(d){ const n=dAgo(d); if(n===null)return'—'; if(n<=0)return'tod
 
 /* ===================== model ===================== */
 const ME='Mike';
-const PEOPLE=[
-  {n:"Francis",c:"#0b7285"},{n:"John",c:"#2f6fd0"},{n:"Rachelle",c:"#b7791f"},{n:"Anne",c:"#3a55d9"},
-  {n:"Urie",c:"#8e44ad"},{n:"Neil",c:"#0e7c86"},{n:"Rom",c:"#6f42c1"},{n:"Chen",c:"#c0392b"},
-  {n:"Joyce",c:"#1f7a44"},{n:"Josh",c:"#2E75B6"},{n:"FJ",c:"#c2560f"},{n:"Charize",c:"#b23b6b"},{n:"Mike",c:"#b8860b"}
-];
-const PAIRS=["Chen & Joyce","Josh & FJ"]; // pairs share a workflow (from the session plan)
+const _RC=['#0b7285','#2f6fd0','#b7791f','#3a55d9','#8e44ad','#0e7c86','#6f42c1','#c0392b','#1f7a44','#2E75B6','#c2560f','#b23b6b','#3D7A54','#5c6bc0','#00897b','#d17b0f','#7b1fa2','#455a64'];
+const PEOPLE=["Abe","Aireen","Alexis","Angelyn","Anne","Anne Cielo","Athena","Ces","Charize","Chen","Dana","Dom","Eco","FJ","France","Francis","Gaby","James","John","Joshua","Jovelle","Joy","Joyce","Kyrene","Lexter","Miles","MJ","Neil","Nifa","Rachelle","Riogie","Roe Ann","Rom","Sarsia","Tweeny","Urie","Mike"].map((n,i)=>({n,c:n==='Mike'?'#b8860b':_RC[i%_RC.length]}));
+const PAIRS=["Chen & Joyce","Joshua & FJ"]; // sample shared-owner combos; auto-hidden once the roster changes
+function rosterList(){ return (typeof STATE!=='undefined'&&STATE&&Array.isArray(STATE.people)&&STATE.people.length)?STATE.people:PEOPLE; }
+function activePairs(){ return PAIRS.filter(pr=>splitWho(pr).every(n=>rosterList().some(x=>x.n===n))); }
+const _PCOLORS=['#0b7285','#2f6fd0','#b7791f','#3a55d9','#8e44ad','#0e7c86','#6f42c1','#c0392b','#1f7a44','#2E75B6','#c2560f','#b23b6b','#3D7A54','#5c6bc0','#00897b','#d17b0f'];
+function _rosterCopy(){ return rosterList().map(x=>({n:x.n,c:x.c})); }
+function addPersonPrompt(){ const n=clean(prompt('New teammate\u2019s name:')||''); if(!n)return; if(rosterList().some(x=>x.n===n)){ toast(n+' is already on the team'); return; }
+  const used=rosterList().map(x=>x.c); const c=_PCOLORS.find(col=>!used.includes(col))||_PCOLORS[rosterList().length%_PCOLORS.length];
+  STATE.people=_rosterCopy(); STATE.people.push({n,c}); STATE.peopleMt=Date.now(); persist(); renderTeamManage(); render(); toast(n+' added to the team'); }
+function removePerson(n){ if(!confirm('Remove '+n+' from the team?\n\nTheir projects stay, but they won\u2019t show as a column until reassigned.'))return;
+  STATE.people=_rosterCopy().filter(x=>x.n!==n); STATE.peopleMt=Date.now(); persist(); renderTeamManage(); render(); toast(n+' removed'); }
+function setPersonColor(n,c){ STATE.people=_rosterCopy().map(x=>x.n===n?{n:x.n,c:c}:x); STATE.peopleMt=Date.now(); persist(); renderTeamManage(); render(); }
+function renderTeamManage(){ const el=document.getElementById('teamManage'); if(!el)return; const list=rosterList();
+  el.innerHTML=list.map(pp=>`<div class="tmrow"><span class="av" style="background:${pp.c}">${esc((pp.n||'?').slice(0,2).toUpperCase())}</span><span class="tmn">${esc(pp.n)}${pp.n===ME?' <span class="tmyou">(you)</span>':''}</span><input type="color" value="${pp.c}" title="Colour" data-v="${esc(pp.n)}" onchange="setPersonColor(this.dataset.v,this.value)">${pp.n===ME?'':`<button class="tmx" title="Remove" data-v="${esc(pp.n)}" onclick="removePerson(this.dataset.v)">\u00d7</button>`}</div>`).join(''); }
+function clearAllProjects(){ const n=(STATE.items||[]).length; if(!n){ toast('No projects to clear.'); return; }
+  if(!confirm('Delete ALL '+n+' projects so you can start fresh? Their logs go too. (Your team roster stays.)'+((_fileMode||_spMode)?'\n\nThis clears the shared data for everyone.':'')))return;
+  STATE.items.forEach(x=>entomb(x.id)); STATE.items=[]; (STATE.dump||[]).forEach(d=>entomb(d.id)); STATE.dump=[]; persist(); render(); toast('Cleared \u2014 add your real projects with \uFF0B New project'); }
 function splitWho(s){ return String(s||'').split('&').map(x=>x.trim()).filter(Boolean); }
 function hasPerson(s,name){ return splitWho(s).includes(name); }
-function person(n){ return PEOPLE.find(p=>p.n===n)||{n:n||'?',c:'#8893ad'}; }
+function person(n){ return rosterList().find(p=>p.n===n)||{n:n||'?',c:'#8893ad'}; }
 function av(n){ const parts=splitWho(n); if(!parts.length)return ''; return parts.map(x=>{const p=person(x); return `<span class="av" style="background:${p.c}" title="${esc(p.n)}">${esc((p.n||'?').slice(0,2).toUpperCase())}</span>`;}).join(''); }
 const STAGES=["Handed off","Building","Blocked","Confirm round","My sign-off","Signed off","On hold"];
 const SCLASS={"Handed off":"sg-hand","Building":"sg-prog","Blocked":"sg-block","Confirm round":"sg-rev","My sign-off":"sg-sign","Signed off":"sg-done","On hold":"sg-hold"};
@@ -512,10 +637,10 @@ function SAMPLE(){ const items=[
   seedItem("Multifamily Underwriting","Multifamily","Urie","Neil","Urie builds it; Neil runs it cold to confirm."),
   seedItem("Multifamily Rent Roll","Multifamily","Neil","Urie","Neil builds it (feeds MF underwriting); Urie runs it cold to confirm."),
   seedItem("Multifamily P&L","Multifamily","Rom","Chen & Joyce","Rom builds it; Chen & Joyce run it cold to confirm (rotation)."),
-  seedItem("Multifamily Rent Comp","Multifamily","Chen & Joyce","Josh & FJ","Chen & Joyce build it; Josh & FJ run it cold to confirm (rotation)."),
-  seedItem("Offering Memorandum (OM)","OM","Josh & FJ","Rom","Josh & FJ build it (consumes comps + P&Ls); Rom runs it cold to confirm (rotation)."),
+  seedItem("Multifamily Rent Comp","Multifamily","Chen & Joyce","Joshua & FJ","Chen & Joyce build it; Josh & FJ run it cold to confirm (rotation)."),
+  seedItem("Offering Memorandum (OM)","OM","Joshua & FJ","Rom","Josh & FJ build it (consumes comps + P&Ls); Rom runs it cold to confirm (rotation)."),
 ].concat([
-  seedItem("OM Content Review","Quality","Josh","","Second-pass content review of produced OMs. From the SRCT registry."),
+  seedItem("OM Content Review","Quality","Joshua","","Second-pass content review of produced OMs. From the SRCT registry."),
   seedItem("OM/BOV Auditing","Quality","","","Audit completed OM/BOVs — needs an owner (currently you). From the SRCT registry."),
   seedItem("Due Diligence Report","Production","Charize","","DD report production. From the SRCT registry."),
   seedItem("P&L (Operating Statement) Analysis","Analysis","","","Operating-statement analysis — needs an owner; may fold into the session P&L builds. From the SRCT registry."),
@@ -554,7 +679,7 @@ function decorateSeed(items){
     p.links=[_lk('https://isourceout.sharepoint.com/projects/om-builder','OM process folder',-2),
              _lk('https://isourceout.sharepoint.com/projects/om-builder/sample-output.pdf','Draft output sample',-2)]; });
   // Josh solo second item overdue -> Josh needs-you via check-in due
-  set('OM Content Review',p=>{ p.builder='Josh'; p.stage='Handed off'; p.reviewer='FJ'; p.nextCheckin=addDaysISO(-1); p.updated=addDaysISO(-8); });
+  set('OM Content Review',p=>{ p.builder='Joshua'; p.stage='Handed off'; p.reviewer='FJ'; p.nextCheckin=addDaysISO(-1); p.updated=addDaysISO(-8); });
   // SETUP / never started: Charize / Due Diligence Report (already builder Charize, reviewer '')
   set('Due Diligence Report',p=>{ p.stage='Building'; p.reviewer='Anne'; p.nextCheckin=addDaysISO(6); p.updated=addDaysISO(-2);
     p.checkins=[_ci(-2,'Mapped the DD checklist to the target template; pulling the first deal’s documents now.','Building')]; });
@@ -572,18 +697,18 @@ function decorateSeed(items){
   set('P&L Consolidation (T12 Builder)',p=>{ p.builder='Rom'; p.reviewer='Neil'; p.nextCheckin=addDaysISO(8); p.updated=addDaysISO(-4); p.checkins=[]; });
 }
 
-let STATE = Store.load() || SAMPLE();
+let STATE = Store.load() || {items:[],dump:[],trash:[]};
 function normalize(){
   if(!STATE||!Array.isArray(STATE.items))STATE=SAMPLE();
   if(!Array.isArray(STATE.dump))STATE.dump=[];
-  if(!Array.isArray(STATE.trash))STATE.trash=[];
+  if(!Array.isArray(STATE.trash))STATE.trash=[]; if(!Array.isArray(STATE.people)||!STATE.people.length||!(STATE.peopleMt>0))STATE.people=PEOPLE.map(x=>({n:x.n,c:x.c})); if(typeof STATE.peopleMt!=='number')STATE.peopleMt=0;
   if(STATE.trash.length>300)STATE.trash=STATE.trash.slice(-300);
   STATE.dump.forEach(d=>{ if(!d.id||!/^[A-Za-z0-9_-]+$/.test(String(d.id)))d.id=pid(); if(typeof d.text!=='string')d.text=String(d.text==null?'':d.text); });
   STATE.items.forEach(p=>{ ['summary','openq','decisions','why','next','desc','cat','builder','reviewer','target','personalTag','nextCheckin','ballSince'].forEach(k=>{if(p[k]===undefined)p[k]='';});
     if(!Array.isArray(p.notes))p.notes=[]; if(!Array.isArray(p.checkins))p.checkins=[];
     if(!p.nudges)p.nudges={count:0,last:''}; if(!p.id||!/^[A-Za-z0-9_-]+$/.test(String(p.id)))p.id=pid(); if(!p.name)p.name='Untitled';
     if(!STAGES.includes(p.stage))p.stage=(p.stage==='In progress'?'Building':p.stage==='For review'||p.stage==='Testing'?'Confirm round':'Handed off'); if(!p.prio)p.prio='md';
-    if(!p.cadence)p.cadence=7; if(p.revOk===undefined)p.revOk=false; if(!p.tests)p.tests=0; });
+    if(!p.owner)p.owner=ME; if(!p.cadence)p.cadence=7; if(p.revOk===undefined)p.revOk=false; if(!p.tests)p.tests=0; });
 }
 normalize();
 
@@ -612,7 +737,7 @@ function mergeStates(a,b){
   (a.items||[]).forEach(put); (b.items||[]).forEach(put);
   const dseen={}, dump=[];
   [...(a.dump||[]),...(b.dump||[])].forEach(d=>{ if(!d||!d.id||trash[d.id]||dseen[d.id])return; dseen[d.id]=1; dump.push(d); });
-  return { items:Object.values(map), dump, trash:Object.entries(trash).map(([id,ts])=>({id,ts})).slice(-300) };
+  return { items:Object.values(map), dump, trash:Object.entries(trash).map(([id,ts])=>({id,ts})).slice(-300), people:(((a.peopleMt||0)>=(b.peopleMt||0))?a.people:b.people)||[], peopleMt:Math.max(a.peopleMt||0,b.peopleMt||0) };
 }
 function diskDiffers(disk){ return disk && ((disk._rev||0)>_loadedRev || ((disk._rev||0)===_loadedRev && disk._wid && disk._wid!==_lastWid)); }
 function idb(){ return new Promise((res,rej)=>{ const r=indexedDB.open('dh_fs',1); r.onupgradeneeded=()=>r.result.createObjectStore('h'); r.onsuccess=()=>res(r.result); r.onerror=()=>rej(r.error); }); }
@@ -728,7 +853,7 @@ function touchedISO(p){ let d=p.updated||''; (p.notes||[]).forEach(n=>{if(n.d>d)
 function daysQuiet(p){ return dAgo(touchedISO(p)); }
 function whereLeftOff(p){ if(p.summary)return p.summary; const c=lastCheckin(p); if(c)return c.t; const n=(p.notes||[]).slice().sort((x,y)=>x.d<y.d?1:-1)[0]; return n?n.t:''; }
 /* the ball: who this is waiting on right now */
-function ballHolder(p){ if(p.stage==='Signed off'||p.stage==='On hold')return null; if(p.stage==='Blocked'||p.stage==='My sign-off')return ME; if(p.stage==='Confirm round')return p.reviewer||p.builder||null; return p.builder||null; }
+function ballHolder(p){ if(p.stage==='Signed off'||p.stage==='On hold')return null; if(p.stage==='Blocked'||p.stage==='My sign-off')return p.owner||ME; if(p.stage==='Confirm round')return p.reviewer||p.builder||null; return p.builder||null; }
 function ballDays(p){ const n=dAgo(p.ballSince); return n==null?0:Math.max(0,n); }
 function moveBall(p){ p.ballSince=todayISO; }
 function checkinDue(p){ if(!isOpen(p)||p.stage==='On hold')return false; if(!p.nextCheckin)return false; return dAgo(p.nextCheckin)>=0; }
@@ -756,18 +881,18 @@ function sendDumpTo(id,itemId){ if(!itemId)return; const d=STATE.dump.find(x=>x.
 
 function editDump(id,v){ const d=STATE.dump.find(x=>x.id===id); if(!d)return; v=clean(v); if(!v){clearDump(id);return;} d.text=v; persist(); }
 /* ===================== CALM VIEW — five lines home + doors ===================== */
-let VIEW='board', SHOWDONE=false, SHEETID=null;
+let VIEW='start', SHOWDONE=false, SHEETID=null;
 let DENS=(function(){try{return localStorage.getItem('dh_dens')||'simple';}catch(e){return 'simple';}})();
 function setDens(d){ DENS=d; FULLFOR=null; try{localStorage.setItem('dh_dens',d);}catch(e){} if(SHEETID)openSheet(SHEETID); }
 function setTab(t,el){ if(t==='data')openGear(); }
 function go(v){ VIEW=v; render(); window.scrollTo({top:0}); }
 function who(p){ return splitWho(p.builder).join(' & ')||'unassigned'; }
-function ballTxt(p){ const h=ballHolder(p); if(!h)return 'done'; const d=ballDays(p); return (h===ME?'with you':'with '+h)+' · '+(d<=0?'today':relTxt(p.ballSince)); }
+function ballTxt(p){ const h=ballHolder(p); if(!h)return 'done'; const d=ballDays(p); return (h===actor()?'with you':'with '+h)+' · '+(d<=0?'today':relTxt(p.ballSince)); }
 
 function buildMoves(){
-  const mv=[];
+  const mv=[]; const _act=actor();
   STATE.items.forEach(p=>{
-    if(!isOpen(p))return;
+    if(!isOpen(p))return; if((p.owner||ME)!==_act)return;
     if(p.stage==='Blocked') mv.push({p,k:'block',w:`<b>${esc(who(p))} is stuck</b> on ${esc(p.name)}${p.openq?' — “'+esc(p.openq)+'”':''}`,why:relTxt(p.ballSince),act:'Answer',fn:`unblock('${p.id}')`});
     else if(p.stage==='My sign-off'){
       if(p.revOk&&p.tests>=TESTS_REQUIRED) mv.push({p,k:'sign',w:`<b>${esc(p.name)} is ready to sign off</b> — ${esc(p.reviewer||'the partner')} ran it cold, output matched.`,why:relTxt(p.ballSince),act:'Sign off',fn:`signOff('${p.id}')`});
@@ -785,17 +910,88 @@ function buildMoves(){
   mv.sort((a,b)=>order[a.k]-order[b.k]);
   return mv;
 }
+/* ===================== the start landing ===================== */
+function startMatches(q){ q=q.trim().toLowerCase(); if(!q)return [];
+  const res=[];
+  rosterList().filter(x=>x.n!==ME).forEach(x=>{ const i=x.n.toLowerCase().indexOf(q); if(i<0)return; const n=ownedBy(x.n).length;
+    res.push({t:'p',v:x.n,label:x.n,sub:n+' project'+(n===1?'':'s'),rank:(i===0?0:1)}); });
+  STATE.items.filter(isOpen).forEach(it=>{ const nm=it.name.toLowerCase(), who=String(it.builder||'').toLowerCase();
+    if(nm.indexOf(q)<0 && who.indexOf(q)<0)return;
+    res.push({t:'j',v:it.id,label:it.name,sub:(it.builder||'unassigned')+' · '+it.stage,rank:(nm.indexOf(q)===0?0:1)+(needsMe(it)?0:.5)}); });
+  res.sort((a,b)=>a.rank-b.rank || a.label.localeCompare(b.label));
+  return res.slice(0,8);
+}
+function startSearch(q){ const box=document.getElementById('sres'); if(!box)return;
+  if(!q.trim()){ box.innerHTML=''; box.classList.remove('on'); return; }
+  const m=startMatches(q);
+  box.innerHTML=m.length? m.map((r,i)=>`<div class="srow ${i===0?'on':''}" data-t="${r.t}" data-v="${esc(r.v)}" onclick="startOpen(this)"><span class="sl">${esc(r.label)}</span><span class="ss">${esc(r.sub)}</span><span class="st">${r.t==='p'?'PERSON':'PROJECT'}</span></div>`).join('') : '<div class="snone">No matches — try a person or project name.</div>';
+  box.classList.add('on');
+}
+function startOpen(el){ if(!el)return; const t=el.dataset.t, v=el.dataset.v;
+  const inp=document.getElementById('ssearch'); if(inp)inp.value='';
+  const box=document.getElementById('sres'); if(box){ box.innerHTML=''; box.classList.remove('on'); }
+  if(t==='p')openPerson(v); else openSheet(v); }
+function startKey(e){ const box=document.getElementById('sres'); const rows=box?[...box.querySelectorAll('.srow')]:[];
+  if(e.key==='Escape'){ e.target.value=''; if(box){ box.innerHTML=''; box.classList.remove('on'); } return; }
+  if(!rows.length)return;
+  const idx=rows.findIndex(r=>r.classList.contains('on'));
+  if(e.key==='ArrowDown'){ e.preventDefault(); if(idx>=0)rows[idx].classList.remove('on'); rows[(idx+1)%rows.length].classList.add('on'); }
+  else if(e.key==='ArrowUp'){ e.preventDefault(); if(idx>=0)rows[idx].classList.remove('on'); rows[(idx-1+rows.length)%rows.length].classList.add('on'); }
+  else if(e.key==='Enter'){ e.preventDefault(); startOpen(rows[Math.max(0,idx)]); }
+}
+function renderStart(){
+  const open=STATE.items.filter(isOpen);
+  const needN=open.filter(p=>needsMe(p)&&(p.owner||ME)===actor()).length;
+  const ppl=rosterList().filter(x=>x.n!==ME);
+  const pOpts=ppl.map(x=>{ const own=ownedBy(x.n); const nd=own.some(needsMe); return `<option value="${esc(x.n)}">${nd?'● ':''}${esc(x.n)} — ${own.length} project${own.length===1?'':'s'}</option>`; }).join('');
+  const prSorted=open.slice().sort((a,b)=>{ const ra=needsMe(a)?0:1, rb=needsMe(b)?0:1; if(ra!==rb)return ra-rb; return a.name.localeCompare(b.name); });
+  const prOpts=prSorted.map(it=>`<option value="${it.id}">${needsMe(it)?'● ':''}${esc(it.name)} — ${esc(it.builder||'unassigned')}</option>`).join('');
+  const vw=viewerName();
+  let whisper;
+  if(!open.length){ whisper=`<button class="swhisper ok" onclick="addItem()">No projects yet — ＋ add your first.</button>`; }
+  else if(needN){ whisper=`<button class="swhisper" onclick="go('home')"><span class="d"></span>${needN} thing${needN===1?'':'s'} need${needN===1?'s':''} ${vw?'you':'Mike'} — see ${vw?'your':'his'} moves →</button>`; }
+  else if(vw && vw!==ME){ const court=open.filter(p=>hasPerson(String(ballHolder(p)||''),vw)).length;
+    whisper = court? `<button class="swhisper" data-v="${esc(vw)}" onclick="openPerson(this.dataset.v)"><span class="d"></span>${court} project${court===1?'':'s'} in your court, ${esc(vw)} — open your page →</button>`
+      : `<button class="swhisper ok" data-v="${esc(vw)}" onclick="openPerson(this.dataset.v)">You’re all caught up, ${esc(vw)} — open your page →</button>`; }
+  else { whisper=`<button class="swhisper ok" onclick="go('home')">All quiet — nothing needs you. See today →</button>`; }
+  if(!vw && open.length){ whisper=`<span class="swrap">${whisper}<select class="dsel dselwho" onchange="setViewer(this.value)"><option value="">Who are you? Pick your name…</option>${rosterList().map(x=>`<option value="${esc(x.n)}">${esc(x.n)}</option>`).join('')}</select></span>`; }
+  document.getElementById('viewBody').innerHTML=`<div class="startwrap">
+    <div class="startq">What do you want to do?</div>
+    ${whisper}
+    <div class="ssbox"><input id="ssearch" class="ssearch" placeholder="Search projects and people…" autocomplete="off" oninput="startSearch(this.value)" onkeydown="startKey(event)"><div class="sres" id="sres"></div></div>
+    <div class="lookrow">
+      <select class="dsel" onchange="dashPick(this,'p')"><option value="">Choose a person…</option>${pOpts}</select>
+      <select class="dsel" onchange="dashPick(this,'j')"><option value="">Choose a project…</option>${prOpts}</select>
+    </div>
+    <div class="m-h">Or jump to a view</div>
+    <div class="viewbtns">
+      <button class="vbtn solid" onclick="go('home')">Your moves today<span class="sub">what needs you + the pulse</span></button>
+      <button class="vbtn" onclick="goBoard('glance')">Everyone<span class="sub">the whole team at a glance</span></button>
+      <button class="vbtn" onclick="goBoard('deal')">By project<span class="sub">one card per project</span></button>
+      <button class="vbtn" onclick="goBoard('wall')">The wall<span class="sub">deep columns per person</span></button>
+      <button class="vbtn" onclick="goBoard('activity')">Activity<span class="sub">latest updates, newest first</span></button>
+      <button class="vbtn" onclick="go('list')">All projects<span class="sub">the full list</span></button>
+    </div>
+    <div class="doorlinks"><u onclick="openHelp()">How this works</u> &nbsp;·&nbsp; <u onclick="addItem()">＋ New project</u> &nbsp;·&nbsp; <u onclick="go('team')">See the team</u> &nbsp;·&nbsp; <u onclick="openRound()">Run the follow-up round</u> &nbsp;·&nbsp; press <b>n</b> to jot a thought</div>
+  </div>`;
+  document.getElementById('finefoot').innerHTML='';
+  if(window.matchMedia && window.matchMedia('(min-width:721px)').matches){ setTimeout(()=>{ const e=document.getElementById('ssearch'); if(e && VIEW==='start' && !document.querySelector('.ov.on'))e.focus(); },60); }
+}
+function goBoard(m){ BOARDMODE=m; try{localStorage.setItem('dh_board_mode',m);}catch(e){} go('board'); }
+function dashPick(sel,kind){ const v=sel.value; sel.selectedIndex=0; if(!v)return; if(kind==='p')openPerson(v); else openSheet(v); }
 function renderHome(){
   const mv=buildMoves();
   const open=STATE.items.filter(isOpen);
   const fineN=open.length-new Set(mv.map(m=>m.p.id)).size;
   const nexts=open.map(p=>p.nextCheckin).filter(Boolean).filter(d=>dAgo(d)<0).sort();
-  let h=`<div class="hh"><span class="hi">Your moves today</span></div>`;
+  const needN=open.filter(p=>needsMe(p)&&(p.owner||ME)===actor()).length, quietN=open.filter(goneQuiet).length, newN=newSince();
+  let h=`<div class="hh"><span class="hi">Your moves today</span><button class="back" onclick="go('start')">← back</button></div>`;
+  h+=`<div class="pulseline">${open.length?`<span><b>${open.length}</b> open</span> · ${needN?`<span class="pl-alert"><span class="d"></span><b style="color:var(--alert)">${needN}</b>&nbsp;need you</span>`:'<span class="pl-ok">nothing needs you</span>'} · ${quietN?`<span><b>${quietN}</b> gone quiet</span>`:'<span>all moving</span>'}`:`<span>No projects yet — start with ＋ New project below.</span>`}${newN?`<button class="newpill" onclick="goBoard('activity')" title="See what&#39;s new">${newN} new since ${fmt(BOARDSEEN)}</button>`:''}</div>`;
   if(mv.length){ h+=mv.map(m=>`<div class="move"><span class="what">${m.w}</span>${m.why?`<span class="why">${esc(m.why)}</span>`:''}
       ${m.act2?`<button class="act q" onclick="${m.fn2}">${m.act2}</button>`:''}
       <button class="act" onclick="${m.fn}">${m.act}</button></div>`).join(''); }
-  else h+='<div class="allclear" style="font-size:1.05rem">Nothing is waiting on you. &#127881;</div>';
-  h+=`<div class="allclear"><b>Everything else is fine.</b> ${fineN} process${fineN===1?'':'es'} moving${nexts.length?', next check-ins '+fmt(nexts[0]):''}.</div>`;
+  else if(open.length) h+='<div class="allclear" style="font-size:1.05rem">Nothing is waiting on you. &#127881;</div>';
+  if(open.length) h+=`<div class="allclear"><b>Everything else is fine.</b> ${fineN} project${fineN===1?'':'s'} moving${nexts.length?', next check-ins '+fmt(nexts[0]):''}.</div>`;
   if(STATE.dump.length){
     const opts=STATE.items.filter(isOpen).map(p=>`<option value="${p.id}">${esc(p.name)}</option>`).join('');
     h+='<div class="m-h">Inbox — '+STATE.dump.length+' to sort</div>'+STATE.dump.map(d=>`
@@ -803,7 +999,24 @@ function renderHome(){
       <select onchange="sendDumpTo('${d.id}',this.value)"><option value="">&rarr; process&hellip;</option>${opts}</select>
       <button class="clr" onclick="clearDump('${d.id}')">&#10003;</button></div>`).join('');
   }
-  h+=`<div class="doorlinks"><u onclick="go('board')">Walk the standup wall</u> &nbsp;·&nbsp; <u onclick="go('list')">See all ${open.length} processes</u> &nbsp;·&nbsp; <u onclick="go('team')">See the team</u> &nbsp;·&nbsp; <u onclick="openRound()">Run the follow-up round</u> &nbsp;·&nbsp; press <b>n</b> to jot a thought</div>`;
+  const ppl=rosterList().filter(x=>x.n!==ME);
+  const pOpts=ppl.map(x=>{ const own=ownedBy(x.n); const nd=own.some(needsMe); return `<option value="${esc(x.n)}">${nd?'\u25CF ':''}${esc(x.n)} — ${own.length} project${own.length===1?'':'s'}</option>`; }).join('');
+  const prSorted=open.slice().sort((a,b)=>{ const ra=needsMe(a)?0:1, rb=needsMe(b)?0:1; if(ra!==rb)return ra-rb; return a.name.localeCompare(b.name); });
+  const prOpts=prSorted.map(it=>`<option value="${it.id}">${needsMe(it)?'\u25CF ':''}${esc(it.name)} — ${esc(it.builder||'unassigned')}</option>`).join('');
+  if(open.length){ h+=`<div class="m-h">Look in on</div>
+    <div class="lookrow">
+      <select class="dsel" onchange="dashPick(this,'p')"><option value="">Choose a person…</option>${pOpts}</select>
+      <select class="dsel" onchange="dashPick(this,'j')"><option value="">Choose a project…</option>${prOpts}</select>
+    </div>`; }
+  h+=`<div class="m-h">The views</div>
+    <div class="viewbtns">
+      <button class="vbtn solid" onclick="goBoard('glance')">Everyone<span class="sub">the whole team at a glance</span></button>
+      <button class="vbtn" onclick="goBoard('deal')">By project<span class="sub">one card per project</span></button>
+      <button class="vbtn" onclick="goBoard('activity')">Activity<span class="sub">latest updates, newest first</span></button>
+      <button class="vbtn" onclick="goBoard('wall')">The wall<span class="sub">deep columns per person</span></button>
+      <button class="vbtn" onclick="go('list')">All projects<span class="sub">the full list</span></button>
+    </div>`;
+  h+=`<div class="doorlinks"><u onclick="openHelp()">How this works</u> &nbsp;·&nbsp; <u onclick="addItem()">＋ New project</u> &nbsp;·&nbsp; <u onclick="go('team')">See the team</u> &nbsp;·&nbsp; <u onclick="openRound()">Run the follow-up round</u> &nbsp;·&nbsp; press <b>n</b> to jot a thought</div>`;
   document.getElementById('viewBody').innerHTML=h;
   document.getElementById('finefoot').innerHTML='';
 }
@@ -824,7 +1037,7 @@ function renderList(){
     else if(p.stage==='Confirm round')B.confirm.push(p);
     else B.building.push(p);
   });
-  let h=`<div class="hh"><span class="hi">All processes</span><button class="back" onclick="go('home')">&larr; back</button></div>`;
+  let h=`<div class="hh"><span class="hi">All processes</span><button class="back" onclick="go('start')">&larr; back</button></div>`;
   if(B.needs.length) h+='<div class="m-h">Needs you</div>'+B.needs.map(rowHTML).join('');
   if(B.building.length) h+='<div class="m-h">Being built</div>'+B.building.map(rowHTML).join('');
   if(B.confirm.length) h+='<div class="m-h">Confirm round</div>'+B.confirm.map(rowHTML).join('');
@@ -834,19 +1047,19 @@ function renderList(){
   document.getElementById('finefoot').innerHTML=(B.done.length?('<b>'+B.done.length+' signed off</b> · <u onclick="SHOWDONE=!SHOWDONE;render()">'+(SHOWDONE?'hide':'show')+'</u> &nbsp;·&nbsp; '):'')+'<u onclick="addItem()">+ delegate something new</u>';
 }
 function renderTeam(){
-  const roster=PEOPLE.filter(x=>x.n!==ME);
-  let h=`<div class="hh"><span class="hi">The team</span><button class="back" onclick="go('home')">&larr; back</button></div><div class="tgrid">`;
+  const roster=rosterList().filter(x=>x.n!==ME);
+  let h=`<div class="hh"><span class="hi">The team</span><button class="back" onclick="go('start')">&larr; back</button></div><div class="tgrid">`;
   h+=roster.map(per=>{
     const owned=STATE.items.filter(p=>isOpen(p)&&hasPerson(p.builder,per.n));
     const confirming=STATE.items.filter(p=>isOpen(p)&&hasPerson(p.reviewer,per.n)&&p.stage==='Confirm round');
     const done=STATE.items.filter(p=>p.stage==='Signed off'&&hasPerson(p.builder,per.n));
     const overdue=owned.filter(checkinDue);
     if(!owned.length&&!confirming.length&&!done.length)return '';
-    return `<div class="tcard"><div class="tn">${esc(per.n)}</div>
+    return `<div class="tcard click" data-v="${esc(per.n)}" tabindex="0" role="button" onclick="openPerson(this.dataset.v)" onkeydown="if(event.key==='Enter')openPerson(this.dataset.v)"><div class="tn">${esc(per.n)}</div>
       <div class="ts">${owned.length} open · ${done.length} signed off${overdue.length?' · <i style="color:var(--alert);font-style:normal;font-weight:650">'+overdue.length+' check-in'+(overdue.length>1?'s':'')+' overdue</i>':''}</div>
       <ul>${owned.map(p=>`<li>${esc(p.name)} — ${p.stage.toLowerCase()}${checkinDue(p)?' · <i>due</i>':''}</li>`).join('')}
       ${confirming.map(p=>`<li>confirming ${esc(p.name)}</li>`).join('')}</ul>
-      <button class="tbtn" onclick="oneOnOne('${esc(per.n)}',this)">Copy 1:1 brief</button></div>`;
+      <button class="tbtn" data-v="${esc(per.n)}" onclick="event.stopPropagation();oneOnOne(this.dataset.v,this)">Copy 1:1 brief</button></div>`;
   }).join('');
   h+='</div>';
   document.getElementById('viewBody').innerHTML=h;
@@ -862,7 +1075,8 @@ function openItemRow(id){ openSheet(id); }
 let BOARDSORT=(function(){try{return localStorage.getItem('dh_board_sort')||'needs';}catch(e){return 'needs';}})();
 let BOARDMODE=(function(){try{return localStorage.getItem('dh_board_mode')||'glance';}catch(e){return 'glance';}})();
 let PERSON=null;
-let BOARDSEEN=(function(){try{let v=localStorage.getItem('dh_board_seen'); if(!v){ v=addDaysISO(-2); try{localStorage.setItem('dh_board_seen',v);}catch(_){} } return v;}catch(e){return '';}})();
+function actor(){ return (typeof viewerName==='function'&&viewerName())||ME; }
+let BOARDSEEN=(function(){try{let v=localStorage.getItem('dh_board_seen'); if(!v){ v=todayISO; try{localStorage.setItem('dh_board_seen',v);}catch(_){} } return v;}catch(e){return '';}})();
 let MOBSEL=null, COMPOSE=null, FULLFOR=null;
 function ownedBy(name){ return STATE.items.filter(p=>isOpen(p)&&hasPerson(p.builder,name)); }
 function colStat(name){ // {open, needs, minQuiet, allSigned}
@@ -873,7 +1087,8 @@ function colStat(name){ // {open, needs, minQuiet, allSigned}
   const minQuiet=act.length?Math.min(...act.map(daysQuiet)):null;   // freshest active — soft 7–13d pre-warn only
   const gq=owned.filter(goneQuiet);                                  // item-level, matches Home's goneQuiet exactly
   const quietBad=gq.length?Math.max(...gq.map(daysQuiet)):null;      // worst genuinely-quiet item
-  return {open:owned.length, needs, minQuiet, quietBad, allSigned:allItems.length>0&&owned.length===0};
+  const needOwners=[...new Set(owned.filter(needsMe).map(o=>o.owner||ME))];
+  return {open:owned.length, needs, needOwners, minQuiet, quietBad, allSigned:allItems.length>0&&owned.length===0};
 }
 function personProjects(name){ // this person's open projects, needs-first then most-recently-touched
   return ownedBy(name).slice().sort((a,b)=>{ const ra=needsMe(a)?0:(goneQuiet(a)?1:2), rb=needsMe(b)?0:(goneQuiet(b)?1:2);
@@ -885,11 +1100,11 @@ function colCards(name){ // ONE card per project (latest update, or a no-update 
   return {cards:cards.slice(0,3), total:cards.length};
 }
 // used by copyBrief() and the follow-up round — were referenced but never defined
-function myMoves(){ return STATE.items.filter(p=>isOpen(p)&&ballHolder(p)===ME); }
+function myMoves(){ return STATE.items.filter(p=>isOpen(p)&&ballHolder(p)===actor()); }
 function dueCheckins(){ return STATE.items.filter(p=>isOpen(p)&&checkinDue(p)); }
 function quietOnes(){ return STATE.items.filter(goneQuiet); }
 function unassignedItems(){ return STATE.items.filter(p=>isOpen(p)&&!splitWho(p.builder).length); }
-function boardPeople(){ return PEOPLE.filter(p=>p.n!==ME); }
+function boardPeople(){ return rosterList().filter(p=>STATE.items.some(it=>hasPerson(it.builder,p.n))); }
 function sortedColumns(){
   let ppl=boardPeople().slice();
   if(BOARDSORT==='needs'){
@@ -899,7 +1114,7 @@ function sortedColumns(){
   return ppl;
 }
 function cardHTML(c,topMine){
-  const it=c.it; const hasCk=!!(c&&c.t); const isMine=topMine && ballHolder(it)===ME;
+  const it=c.it; const hasCk=!!(c&&c.t); const isMine=topMine && ballHolder(it)===actor();
   const label=((c&&c.s)||it.stage||'').toString();
   const chipCls=(c&&c.s==='Signed off')?'ok':(isMine?'mine':'');
   const over=(it.stage!=='On hold')&&checkinDue(it);   // the due item's own card, wherever it sits
@@ -910,11 +1125,11 @@ function cardHTML(c,topMine){
   return `<div class="ucard ${isMine?'mine':''} ${it.stage==='On hold'?'hold':''} ${hasCk?'':'noupd'}" tabindex="0" role="button" onclick="event.stopPropagation();openSheet('${it.id}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.stopPropagation();event.preventDefault();openSheet('${it.id}');}">
     <div class="meta"><span class="stat ${chipCls}">${esc(label)}</span><span class="dt ${over?'over':''}">${isNew?'<span class="new" title="new since your last visit"></span>':''}${esc(dstr)}</span></div>
     <div class="pj">${esc(it.name)}</div>
-    <div class="nt${hasCk?'':' empty'}">${hasCk?esc(c.t):'No updates yet — open to post the first'}</div>${pairTag}${linkRow(it)}</div>`;
+    <div class="nt${hasCk?'':' empty'}">${hasCk?esc(c.t):'No updates yet — open to post the first'}</div>${(it.owner||ME)!==ME?`<div class="pair">owner · ${esc(it.owner)}</div>`:''}${pairTag}${linkRow(it)}</div>`;
 }
 function composerHTML(name){
   const owned=ownedBy(name);
-  if(!owned.length){ return `<div class="compose"><div class="stubdis">No open projects — <u onclick="addItem('${esc(name)}')">start one for ${esc(name)}</u></div></div>`; }
+  if(!owned.length){ return `<div class="compose"><div class="stubdis">No open projects — <u data-v="${esc(name)}" onclick="addItem(this.dataset.v)">start one for ${esc(name)}</u></div></div>`; }
   const isOpenC = COMPOSE===name;
   const def=owned.slice().sort((a,b)=>touchedISO(a)<touchedISO(b)?1:-1)[0];
   const multi=owned.length>1;
@@ -922,7 +1137,7 @@ function composerHTML(name){
   const ph=checkinDue(def)?('What’s the latest on '+esc(def.name)+'?'):(def.stage==='Blocked'?'Any movement on the blocker?':('Quick update on '+esc(def.name)+'?'));
   const stageOpts=STAGES.filter(s=>s!=='Signed off').map(s=>`<option value="${s}" ${s===def.stage?'selected':''}>${s}</option>`).join('');
   return `<div class="compose ${isOpenC?'open':''}">
-    <button type="button" class="stub" onclick="openCompose('${esc(name)}')">＋ Post an update…</button>
+    <button type="button" class="stub" data-v="${esc(name)}" onclick="openCompose(this.dataset.v)">＋ Post an update…</button>
     <form onsubmit="return false">
       ${sel}
       <textarea class="cmp-note" placeholder="${ph}" onkeydown="cmpKey(event,this)"></textarea>
@@ -956,11 +1171,11 @@ function colHTML(person){
   else if(!cards.length){ body=`<div class="cempty">${st.open?'No projects yet.':'No open work.'}</div>`; }
   else {
     body=`<div class="cards">${cards.map((c,i)=>cardHTML(c,i===0)).join('')}</div>`;
-    if(total>cards.length) body+=`<button class="cmore" onclick="openPerson('${esc(name)}')">+${total-cards.length} more project${total-cards.length===1?'':'s'} →</button>`;
+    if(total>cards.length) body+=`<button class="cmore" data-v="${esc(name)}" onclick="openPerson(this.dataset.v)">+${total-cards.length} more project${total-cards.length===1?'':'s'} →</button>`;
   }
   const quietCol = !st.allSigned && st.needs===0 && st.quietBad!=null;
   return `<div class="col ${quietCol?'quiet':''}" style="--cc:${person.c}">
-    <div class="ch"><div class="r1"><span class="pgrp" title="Open ${esc(name)}'s projects" onclick="openPerson('${esc(name)}')"><span class="av" style="background:${person.c}">${esc(name.slice(0,2).toUpperCase())}</span><span class="nm">${esc(name)}</span></span><button class="oto" title="Copy 1:1 brief" onclick="oneOnOne('${esc(name)}',this)">1:1</button></div>
+    <div class="ch"><div class="r1"><span class="pgrp" title="Open ${esc(name)}&#39;s projects" data-v="${esc(name)}" onclick="openPerson(this.dataset.v)"><span class="av" style="background:${person.c}">${esc(name.slice(0,2).toUpperCase())}</span><span class="nm">${esc(name)}</span></span><button class="oto" title="Copy 1:1 brief" data-v="${esc(name)}" onclick="oneOnOne(this.dataset.v,this)">1:1</button></div>
       <div class="r2"><span>${st.open} OPEN</span> · ${tok}</div></div>
     ${st.allSigned?'':composerHTML(name)}
     ${body}</div>`;
@@ -979,9 +1194,9 @@ function newSince(){ // distinct check-ins posted after your last visit (each sh
   STATE.items.forEach(it=>{ if(!isOpen(it)||!splitWho(it.builder).length)return; (it.checkins||[]).forEach(c=>{ if(c.d>BOARDSEEN)n++; }); });
   return n;
 }
-function markBoardSeen(){ BOARDSEEN=todayISO; try{localStorage.setItem('dh_board_seen',todayISO);}catch(e){} render(); }
+function markBoardSeen(){ let mx=todayISO; STATE.items.forEach(it=>(it.checkins||[]).forEach(c=>{ if(c.d>mx)mx=c.d; })); BOARDSEEN=mx; try{localStorage.setItem('dh_board_seen',mx);}catch(e){} render(); }
 function pulseTok(st){
-  if(st.needs>0) return `<span class="tok alert"><span class="d"></span>${st.needs} NEEDS YOU</span>`;
+  if(st.needs>0){ const os=st.needOwners||[]; const lab=os.length===1?(os[0]===actor()?'NEEDS YOU':'NEEDS '+esc(os[0].toUpperCase())):'NEEDS OWNERS'; return `<span class="tok alert"><span class="d"></span>${st.needs} ${lab}</span>`; }
   if(st.allSigned) return `<span class="tok ok">ALL SIGNED OFF</span>`;
   if(st.open===0) return `<span class="tok">IDLE</span>`;
   if(st.quietBad!=null) return `<span class="tok alert">QUIET ${relTxt(addDaysISO(-st.quietBad))}</span>`;
@@ -996,8 +1211,8 @@ function tileHTML(person){
   if(st.allSigned) body=`<div class="tempty ok">All signed off ✓</div>`;
   else if(!cards.length) body=`<div class="tempty">${st.open?'No projects yet':'No open work'}</div>`;
   else body=cardHTML(cards[0],true);
-  const more=(total>1)?`<button class="tmore" onclick="event.stopPropagation();openPerson('${esc(name)}')">${total-1} more project${total-1===1?'':'s'} →</button>`:'';
-  return `<div class="tile ${needs?'needs':''} ${quietCol?'quiet':''}" style="--cc:${person.c}" tabindex="0" role="button" onclick="openPerson('${esc(name)}')" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPerson('${esc(name)}');}">
+  const more=(total>1)?`<button class="tmore" data-v="${esc(name)}" onclick="event.stopPropagation();openPerson(this.dataset.v)">${total-1} more project${total-1===1?'':'s'} →</button>`:'';
+  return `<div class="tile ${needs?'needs':''} ${quietCol?'quiet':''}" style="--cc:${person.c}" tabindex="0" role="button" data-v="${esc(name)}" onclick="openPerson(this.dataset.v)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();openPerson(this.dataset.v);}">
     <div class="th"><span class="av" style="background:${person.c}">${esc(name.slice(0,2).toUpperCase())}</span><span class="tnm">${esc(name)}</span></div>
     <div class="ttok"><span>${st.open} open</span> · ${pulseTok(st)}</div>
     <div class="tb">${body}</div>${more}</div>`;
@@ -1029,8 +1244,8 @@ function personColHTML(person){
   return `<button class="x" onclick="closePerson()">×</button>
     <div class="pph"><span class="av" style="background:${person.c}">${esc(name.slice(0,2).toUpperCase())}</span>
       <div><div class="ppn">${esc(name)}</div><div class="pps"><span>${nP} project${nP===1?'':'s'}</span> · ${pulseTok(st)}</div></div>
-      <button class="oto" onclick="oneOnOne('${esc(name)}',this)">Copy 1:1 brief</button></div>
-    <button class="ppnew" onclick="addItem('${esc(name)}')">＋ New project for ${esc(name)}</button>
+      <button class="oto" data-v="${esc(name)}" onclick="oneOnOne(this.dataset.v,this)">Copy 1:1 brief</button></div>
+    <button class="ppnew" data-v="${esc(name)}" onclick="addItem(this.dataset.v)">＋ New project for ${esc(name)}</button>
     ${st.allSigned?'':composerHTML(name)}
     <div class="ppprojects">${blocks}</div>`;
 }
@@ -1040,10 +1255,10 @@ function refreshPerson(){ if(!PERSON)return; const el=document.getElementById('p
 function setBoardMode(m){ BOARDMODE=m; try{localStorage.setItem('dh_board_mode',m);}catch(e){} renderBoard(); }
 
 /* ---- extra lenses: By deal + Activity ---- */
-function boardItem(it){ return isOpen(it) && (!splitWho(it.builder).length || splitWho(it.builder).some(n=>n!==ME)); }
+function boardItem(it){ return isOpen(it); }
 function latestCk(it){ const cks=(it.checkins||[]); if(!cks.length)return null; return cks.slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0)[0]; }
 function ownerAvs(it){ const os=splitWho(it.builder); if(!os.length) return `<span class="av" style="background:#c8cdd8" title="Unassigned">?</span>`;
-  return os.map(n=>{const pp=person(n); return `<span class="av" style="background:${pp.c};cursor:pointer" title="Open ${esc(n)}" onclick="event.stopPropagation();openPerson('${esc(n)}')">${esc(n.slice(0,2).toUpperCase())}</span>`;}).join(''); }
+  return os.map(n=>{const pp=person(n); return `<span class="av" style="background:${pp.c};cursor:pointer" title="Open ${esc(n)}" data-v="${esc(n)}" onclick="event.stopPropagation();openPerson(this.dataset.v)">${esc(n.slice(0,2).toUpperCase())}</span>`;}).join(''); }
 function openDeals(){
   const items=STATE.items.filter(boardItem);
   if(BOARDSORT!=='needs') return items;   // Roster = natural order; Needs-you-first = triage order
@@ -1052,14 +1267,15 @@ function openDeals(){
     const la=latestCk(a),lb=latestCk(b),da=la?la.d:'',db=lb?lb.d:''; return da<db?1:da>db?-1:0; });
 }
 function dealTok(it){
-  if(needsMe(it)) return `<span class="tok alert"><span class="d"></span>NEEDS YOU</span>`;
+  if(needsMe(it)){ const ow=it.owner||ME; return `<span class="tok alert"><span class="d"></span>${ow===actor()?'NEEDS YOU':'NEEDS '+esc(ow.toUpperCase())}</span>`; }
   if(it.stage==='On hold') return `<span class="tok">ON HOLD</span>`;
   if(goneQuiet(it)) return `<span class="tok alert">QUIET ${relTxt(touchedISO(it))}</span>`;
   return `<span class="tok">${esc((it.stage||'MOVING').toUpperCase())}</span>`;
 }
 function dealTileHTML(it){
   const need=needsMe(it), quiet=!need&&goneQuiet(it);
-  const os=splitWho(it.builder); const whoTxt=os.length?esc(os.join(' & ')):'unassigned';
+  const os=splitWho(it.builder); const _w=os.length?esc(os.join(' & ')):'unassigned';
+  const ow=it.owner||ME; const whoTxt=(ow&&!os.includes(ow))?(esc(ow)+' → '+_w):_w;
   const cc=os.length?person(os[0]).c:'#c8cdd8';
   const c=latestCk(it); let body;
   if(c){ const dstr=c.d===todayISO?'TODAY':fmt(c.d); const isNew=BOARDSEEN&&c.d>BOARDSEEN; const over=(it.stage!=='On hold')&&checkinDue(it);
@@ -1091,22 +1307,23 @@ function renderBoard(){
   const needPpl=ppl.filter(p=>colStat(p.n).needs>0);
   const un=unassignedItems();
   const quietPpl=ppl.filter(p=>{const s=colStat(p.n);return s.needs===0 && s.quietBad!=null;});
-  const needChips=needPpl.map(p=>`<span class="av chip" style="background:${p.c}" title="${esc(p.n)} — needs you" onclick="scrollToCol('${esc(p.n)}')">${esc(p.n.slice(0,2).toUpperCase())}</span>`).join('')
+  const needChips=needPpl.map(p=>`<span class="av chip" style="background:${p.c}" title="${esc(p.n)} — needs you" data-v="${esc(p.n)}" onclick="scrollToCol(this.dataset.v)">${esc(p.n.slice(0,2).toUpperCase())}</span>`).join('')
     +(un.length?`<span class="av chip" style="background:#c8cdd8" title="Unassigned" onclick="scrollToCol('__un')">?</span>`:'');
-  const quietChips=quietPpl.map(p=>`<span class="av chip" style="background:${p.c};opacity:.7" title="${esc(p.n)} — gone quiet" onclick="scrollToCol('${esc(p.n)}')">${esc(p.n.slice(0,2).toUpperCase())}</span>`).join('');
+  const quietChips=quietPpl.map(p=>`<span class="av chip" style="background:${p.c};opacity:.7" title="${esc(p.n)} — gone quiet" data-v="${esc(p.n)}" onclick="scrollToCol(this.dataset.v)">${esc(p.n.slice(0,2).toUpperCase())}</span>`).join('');
   const needN=needPpl.length+(un.length?1:0);
-  const radar=`<span class="radar">${needN?`<b class="rn">${needN} need you</b> ${needChips}`:'<b class="ok" style="color:var(--ok)">nothing needs you</b>'} <span style="color:var(--line)">·</span> ${quietPpl.length?`<b class="rq">${quietPpl.length} gone quiet</b> ${quietChips}`:'<span>all moving</span>'}</span>`;
-  const head=`<div class="boardhead"><span class="hi">The standup wall</span><button class="back" onclick="go('home')">← back</button></div>
+  const _mineN=STATE.items.filter(p=>isOpen(p)&&needsMe(p)&&(p.owner||ME)===actor()).length;
+  const radar=`<span class="radar">${_mineN?`<b class="rn">${_mineN} need you</b> ${needChips}`:(needN?`<b class="rq">${needN} waiting on owners</b> ${needChips}`:'<b class="ok" style="color:var(--ok)">nothing needs you</b>')} <span style="color:var(--line)">·</span> ${quietPpl.length?`<b class="rq">${quietPpl.length} gone quiet</b> ${quietChips}`:'<span>all moving</span>'}</span>`;
+  const head=`<div class="boardhead"><span class="hi">${({glance:'Everyone',deal:'By project',activity:'Activity',wall:'The wall'})[BOARDMODE]||'The standup wall'}</span><button class="back" onclick="go('start')">← back</button></div>
     <div class="boardctl">
       <span class="seg"><button class="${BOARDMODE==='glance'?'on':''}" onclick="setBoardMode('glance')">Everyone</button><button class="${BOARDMODE==='deal'?'on':''}" onclick="setBoardMode('deal')">By project</button><button class="${BOARDMODE==='activity'?'on':''}" onclick="setBoardMode('activity')">Activity</button><button class="${BOARDMODE==='wall'?'on':''}" onclick="setBoardMode('wall')">Wall</button></span>
       <span class="seg"><button class="${BOARDSORT==='roster'?'on':''}" onclick="setBoardSort('roster')">Roster</button><button class="${BOARDSORT==='needs'?'on':''}" onclick="setBoardSort('needs')">Needs you first</button></span>
       <button class="newproj" onclick="addItem()">＋ New project</button>
       ${radar}
-      ${nnew?`<button class="newpill" onclick="markBoardSeen()" title="Mark all as seen">${nnew} new since ${fmt(BOARDSEEN)}</button>`:''}
+      ${nnew?`<button class="newpill" onclick="goBoard('activity')" title="See what&#39;s new">${nnew} new since ${fmt(BOARDSEEN)}</button>`:''}
     </div>`;
   // mobile chip rail + single column
   let msel=MOBSEL || (needPpl[0]&&needPpl[0].n) || (ppl[0]&&ppl[0].n);
-  const rail=`<div class="chiprail">${ppl.map(p=>{const s=colStat(p.n);const dot=s.needs>0?'alert':(s.minQuiet>=QUIET_BAD?'quiet':'');return `<button class="pchip ${p.n===msel?'on':''}" onclick="MOBSEL='${esc(p.n)}';renderBoard()"><span class="av" style="background:${p.c}">${esc(p.n.slice(0,2).toUpperCase())}</span><span class="st ${dot}"></span></button>`;}).join('')}</div>`;
+  const rail=`<div class="chiprail">${ppl.map(p=>{const s=colStat(p.n);const dot=s.needs>0?'alert':(s.minQuiet>=QUIET_BAD?'quiet':'');return `<button class="pchip ${p.n===msel?'on':''}" data-v="${esc(p.n)}" onclick="MOBSEL=this.dataset.v;renderBoard()"><span class="av" style="background:${p.c}">${esc(p.n.slice(0,2).toUpperCase())}</span><span class="st ${dot}"></span></button>`;}).join('')}</div>`;
   const mobPerson=ppl.find(p=>p.n===msel)||ppl[0];
   const wall=`<div class="wall">${ppl.map(colHTML).join('')}${unassignedColHTML()}</div>`;
   const mob=`<div class="mobcol">${mobPerson?colHTML(mobPerson):''}</div>`;
@@ -1115,7 +1332,7 @@ function renderBoard(){
   const bodyHTML = BOARDMODE==='wall'?(rail+wall+mob) : BOARDMODE==='deal'?deals : BOARDMODE==='activity'?activityHTML() : glance;
   document.getElementById('viewBody').innerHTML = head + bodyHTML;
   document.getElementById('finefoot').innerHTML='';
-  // "new" dots persist until you click "N new since…" to mark caught up (markBoardSeen)
+  if(BOARDMODE==='activity'){ clearTimeout(window.__seenT); window.__seenT=setTimeout(()=>{ let mx=todayISO; STATE.items.forEach(it=>(it.checkins||[]).forEach(c=>{ if(c.d>mx)mx=c.d; })); if(BOARDSEEN!==mx){ BOARDSEEN=mx; try{localStorage.setItem('dh_board_seen',mx);}catch(e){} } },1500); }
 }
 function setBoardSort(v){ BOARDSORT=v; try{localStorage.setItem('dh_board_sort',v);}catch(e){} renderBoard(); }
 function scrollToCol(key){ const cols=document.querySelectorAll('.wall .col, .glance .tile'); const ppl=sortedColumns();
@@ -1126,7 +1343,8 @@ function commitSheetName(id){ if(SHEETID!==id)return; const box=document.getElem
 
 function render(){
   document.body.classList.toggle('board-open', VIEW==='board');
-  if(VIEW==='board')renderBoard(); else if(VIEW==='list')renderList(); else if(VIEW==='team')renderTeam(); else renderHome();
+  document.body.classList.toggle('on-start', VIEW==='start');
+  if(VIEW==='start')renderStart(); else if(VIEW==='board')renderBoard(); else if(VIEW==='list')renderList(); else if(VIEW==='team')renderTeam(); else renderHome();
   if(document.getElementById('personov')&&document.getElementById('personov').classList.contains('on'))refreshPerson();
   if(SHEETID&&document.getElementById('sheetov').classList.contains('on')) openSheet(SHEETID);
   const dot=document.getElementById('syncdot');
@@ -1153,7 +1371,7 @@ function removeLink(id,i){ const p=I(id); if(!p||!Array.isArray(p.links))return;
 function openSheet(id){ const p=I(id); if(!p){closeSheet();return;} SHEETID=id;
   const simple=(FULLFOR===id)?false:(DENS!=='full');
   const notes=[...(p.notes||[]).map(n=>({...n,k:''})),...(p.checkins||[]).map(n=>({...n,k:'📞 '}))].sort((a,b)=>a.d<b.d?1:-1);
-  const bOpts=n=>PEOPLE.map(x=>x.n).filter(x=>x!==ME).concat(PAIRS).map(x=>`<option ${x===n?'selected':''}>${x}</option>`).join('');
+  const bOpts=n=>rosterList().map(x=>x.n).concat(activePairs()).map(x=>`<option ${x===n?'selected':''}>${x}</option>`).join(''); const oOpts=n=>'<option value="">— owner —</option>'+rosterList().map(x=>`<option ${x.n===n?'selected':''}>${x.n}</option>`).join('');
   const h=ballHolder(p);
   let s=`<button class="x" onclick="closeSheet()">&times;</button>
     <div class="densbar"><button class="${simple?'on':''}" onclick="setDens('simple')">Simple</button><button class="${simple?'':'on'}" onclick="setDens('full')">Full</button></div>
@@ -1165,7 +1383,8 @@ function openSheet(id){ const p=I(id); if(!p){closeSheet();return;} SHEETID=id;
       <div class="sval" contenteditable data-ph="the next concrete step, and whose it is…" onblur="editField('${p.id}','next',this.innerText)">${esc(p.next)}</div></div>`+linkSectionHTML(p)+(simple?simpleLogHTML(p):'');
   if(!simple){
     s+=`<div class="srow2">
-      <div class="sfield"><span class="slab">Owner</span><select class="sset" onchange="setWho('${p.id}','builder',this.value)"><option value="">— assign —</option>${bOpts(p.builder)}</select></div>
+      <div class="sfield"><span class="slab">Owner — who it’s for</span><select class="sset" onchange="setWho('${p.id}','owner',this.value)">${oOpts(p.owner)}</select></div>
+      <div class="sfield"><span class="slab">Lead — who’s building it</span><select class="sset" onchange="setWho('${p.id}','builder',this.value)"><option value="">— assign —</option>${bOpts(p.builder)}</select></div>
       <div class="sfield"><span class="slab">Confirm partner</span><select class="sset" onchange="setWho('${p.id}','reviewer',this.value)"><option value="">— assign —</option>${bOpts(p.reviewer)}</select></div>
       <div class="sfield"><span class="slab">Check-in every</span><select class="sset" onchange="setCadence('${p.id}',this.value)">${[3,7,14].map(n=>`<option value="${n}" ${p.cadence===n?'selected':''}>${n} days</option>`).join('')}</select>
         <span style="font-size:.74rem;color:var(--mute);display:block;margin-top:3px">${p.nextCheckin?('next: '+fmt(p.nextCheckin)):(isOpen(p)?'<u onclick="startClock(\''+p.id+'\')">start the clock</u>':'—')}</span></div>
@@ -1194,13 +1413,13 @@ function openSheet(id){ const p=I(id); if(!p){closeSheet();return;} SHEETID=id;
 }
 function closeSheet(){ SHEETID=null; document.getElementById('sheetov').classList.remove('on'); render(); }
 function delItemQuiet(id){ const p=I(id); if(!p)return; STATE.items=STATE.items.filter(x=>x.id!==id); entomb(id); persist(); render(); toast('Deleted'); }
-function openGear(){ const u=document.getElementById('cfgMyUrl'); if(u)u.value=CONFIG.myUrl||''; ['spClient','spTenant','spSite'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=CONFIG[f]||''; }); const rd=document.getElementById('spRedir'); if(rd)rd.textContent=spRedirect(); const sb=document.getElementById('spbadge'); if(sb){ sb.textContent=_spMode?'Connected':'Not connected'; sb.classList.toggle('on',_spMode); } document.getElementById('gearov').classList.add('on'); }
+function openGear(){ const u=document.getElementById('cfgMyUrl'); if(u)u.value=CONFIG.myUrl||''; ['spClient','spTenant','spSite'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=CONFIG[f]||''; }); const rd=document.getElementById('spRedir'); if(rd)rd.textContent=spRedirect(); const sb=document.getElementById('spbadge'); if(sb){ sb.textContent=_spMode?'Connected':'Not connected'; sb.classList.toggle('on',_spMode); } renderTeamManage(); fillViewerSel(); document.getElementById('gearov').classList.add('on'); }
 function closeGear(){ document.getElementById('gearov').classList.remove('on'); render(); }
 
 function editField(id,f,v){ const p=I(id); if(!p)return; v=clean(v); if(p[f]===v)return; p[f]=v; touch(p); persist(); }
 function editName(id,v){ const p=I(id); if(!p)return; v=clean(v)||'Untitled'; if(p.name===v)return; p.name=v; touch(p); persist();
   const card=document.getElementById('pd-'+id); if(card){ const t=card.closest('.pcard'); const nm=t&&t.querySelector('.prow .nm'); if(nm)nm.textContent=v; } }
-function setWho(id,f,v){ commitSheetName(id); const p=I(id); if(!p)return; const was=ballHolder(p); p[f]=v; touch(p); if(ballHolder(p)!==was)moveBall(p); persist(); render(); toast(v?(v+' set as '+(f==='builder'?'owner':'confirm partner')+' on '+p.name):('Cleared '+f)); }
+function setWho(id,f,v){ commitSheetName(id); const p=I(id); if(!p)return; const was=ballHolder(p); p[f]=v; touch(p); if(ballHolder(p)!==was)moveBall(p); persist(); render(); toast(v?(v+' set as '+(f==='builder'?'lead':f==='owner'?'owner':'confirm partner')+' on '+p.name):('Cleared '+f)); }
 function setCadence(id,v){ commitSheetName(id); const p=I(id); if(!p)return; p.cadence=+v||7;
   if(p.nextCheckin && dAgo(p.nextCheckin)<0){ const lc=lastCheckin(p); p.nextCheckin=addDaysFrom(lc?lc.d:todayISO,p.cadence); } // due/overdue stays due
   touch(p,false); persist(); render(); }
@@ -1213,7 +1432,7 @@ function setStage(id,s){ commitSheetName(id); const p=I(id); if(!p||s===p.stage)
 function setStageQ(id,s){ setStage(id,s); }
 function cycleStage(id){ const p=I(id); if(!p)return; if(p.stage==='Signed off'){ toast('Signed off — reopen via the Stage dropdown inside the card'); return; } const open=STAGES.filter(s=>s!=='Signed off'); let i=open.indexOf(p.stage); setStage(id,open[(i+1)%open.length]); }
 function delItem(id){ const p=I(id); if(!p)return; if(!confirm('Delete "'+p.name+'"? Its whole log goes too.'))return; STATE.items=STATE.items.filter(x=>x.id!==id); entomb(id); persist(); render(); toast('Deleted'); }
-function addItem(owner){ const np=seedItem('New project','',owner||'','',''); np.nextCheckin=''; if(!owner)FULLFOR=np.id; STATE.items.unshift(np); touch(np); persist(); render(); openSheet(np.id); setTimeout(()=>{const el=document.querySelector('#sheetBox .snm'); if(el){el.focus(); const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r);}},40); toast(owner?('New project for '+owner+' — name it'):'New project — name it, then set the owner'); }
+function addItem(lead){ const np=seedItem('New project','',lead||'','',''); np.nextCheckin=''; np.owner=actor(); if(!lead)FULLFOR=np.id; STATE.items.unshift(np); touch(np); persist(); render(); openSheet(np.id); setTimeout(()=>{const el=document.querySelector('#sheetBox .snm'); if(el){el.focus(); const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r);}},40); toast(lead?('New project for '+lead+' — name it'):'New project — name it, then set the lead'); }
 
 /* ===================== management moves ===================== */
 function startClock(id){ const p=I(id); if(!p)return; p.nextCheckin=addDaysISO(p.cadence); touch(p,false); persist(); render(); toast('Check-in clock started — first one '+fmt(p.nextCheckin)); }
@@ -1283,7 +1502,7 @@ function resetData(){ if(!confirm('Reset to the starting processes (9 session bu
 
 /* ===================== boot + keyboard ===================== */
 document.addEventListener('keydown',e=>{
-  if(e.key==='Escape'){ const _on=i=>{const el=document.getElementById(i);return el&&el.classList.contains('on');}; if(_on('capov'))closeCapture(); else if(_on('sheetov'))closeSheet(); else if(_on('gearov'))closeGear(); else if(_on('roundmodal'))closeRound(); else if(_on('personov'))closePerson(); return; }
+  if(e.key==='Escape'){ const _on=i=>{const el=document.getElementById(i);return el&&el.classList.contains('on');}; if(_on('capov'))closeCapture(); else if(_on('sheetov'))closeSheet(); else if(_on('helpov'))closeHelp(); else if(_on('gearov'))closeGear(); else if(_on('roundmodal'))closeRound(); else if(_on('personov'))closePerson(); return; }
   if(e.key==='Enter' && !e.shiftKey && document.activeElement && document.activeElement.isContentEditable){ e.preventDefault(); document.activeElement.blur(); return; }
   const typing=/^(INPUT|TEXTAREA|SELECT)$/.test(document.activeElement.tagName)||document.activeElement.isContentEditable;
   if(!typing && (e.key==='n'||e.key==='N') && !e.metaKey && !e.ctrlKey){ e.preventDefault(); openCapture(); }
@@ -1370,6 +1589,13 @@ if(typeof window!=='undefined'){
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden && _spMode) spPull(); });
 }
 
+/* ===== viewer identity (per-browser) + help ===== */
+function viewerName(){ try{ const v=localStorage.getItem('dh_viewer')||''; return rosterList().some(x=>x.n===v)?v:''; }catch(e){ return ''; } }
+function setViewer(v){ try{ v?localStorage.setItem('dh_viewer',v):localStorage.removeItem('dh_viewer'); }catch(e){} if(v)toast('Welcome, '+v+' — this browser is yours now'); render(); }
+function fillViewerSel(){ const el=document.getElementById('viewerSel'); if(!el)return; const cur=viewerName();
+  el.innerHTML='<option value="">— not set —</option>'+rosterList().map(x=>`<option value="${esc(x.n)}" ${x.n===cur?'selected':''}>${esc(x.n)}</option>`).join(''); }
+function openHelp(){ document.getElementById('helpov').classList.add('on'); }
+function closeHelp(){ document.getElementById('helpov').classList.remove('on'); }
 function boot(){ refreshToday(); render(); bootFileSync(); spBoot(); setInterval(refreshToday,60000); }
 boot();
 </script>
