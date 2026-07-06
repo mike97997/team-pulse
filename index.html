@@ -520,10 +520,10 @@ body.on-start .homebtn{display:none}
     <h3>Backups &amp; tools</h3>
     <div style="display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn" onclick="exportData()">&#11015; Export backup</button>
-      <button class="btn" onclick="document.getElementById('importfile').click()">&#11014; Import / restore</button>
+      <button class="btn" id="importBtn" onclick="document.getElementById('importfile').click()">&#11014; Import / restore</button>
       <input type="file" id="importfile" accept="application/json" style="display:none" onchange="importData(event)">
       <button class="btn" onclick="copyBrief(this)">Copy status brief</button>
-      <button class="btn" onclick="clearAllProjects()">Clear all projects (start fresh)</button>
+      <button class="btn" id="clearAllBtn" onclick="clearAllProjects()">Clear all projects (start fresh)</button>
     </div>
   </div>
 </div>
@@ -554,7 +554,7 @@ body.on-start .homebtn{display:none}
     <ul>
       <li><b>An amber &ldquo;Reconnect&rdquo; bar appeared.</b> Click it once — that&rsquo;s normal after reopening the browser.</li>
       <li><b>Can I use my phone or any browser?</b> Yes — sign in with Microsoft and it syncs live.</li>
-      <li><b>Deleted or broke something?</b> Tell Mike — there are backups.</li>
+      <li><b>Can I break it?</b> Not easily — deleting a project is limited to its Owner (or Mike), and board-wide actions are Mike-only. If something looks wrong, tell Mike; there are backups.</li>
       <li><b>Quick thought?</b> Press <b>n</b> anywhere to jot it down.</li>
     </ul>
     <h3>For Mike (the owner)</h3>
@@ -597,23 +597,27 @@ function relTxt(d){ const n=dAgo(d); if(n===null)return'—'; if(n<=0)return'tod
 /* ===================== model ===================== */
 const ME='Mike';
 const _RC=['#0b7285','#2f6fd0','#b7791f','#3a55d9','#8e44ad','#0e7c86','#6f42c1','#c0392b','#1f7a44','#2E75B6','#c2560f','#b23b6b','#3D7A54','#5c6bc0','#00897b','#d17b0f','#7b1fa2','#455a64'];
-const PEOPLE=["Abe","Aireen","Alexis","Angelyn","Anne","Anne Cielo","Athena","Ces","Charize","Chen","Dana","Dom","Eco","FJ","France","Francis","Gaby","James","John","Joshua","Jovelle","Joy","Joyce","Kyrene","Lexter","Miles","MJ","Neil","Nifa","Rachelle","Riogie","Roe Ann","Rom","Sarsia","Tweeny","Urie","Mike"].map((n,i)=>({n,c:n==='Mike'?'#b8860b':_RC[i%_RC.length]}));
+const PEOPLE=["Abe","Aireen","Alexis","Angelyn","Anne","Anne Cielo","Athena","Ces","Charize","Chen","Dana","Dom","Eco","FJ","France","Francis","Gaby","James","John","Joshua","Jovelle","Joy","Joyce","Kyrene","Lexter","Mike","Miles","MJ","Neil","Nifa","Rachelle","Riogie","Roe Ann","Rom","Sarsia","Tweeny","Urie"].map((n,i)=>({n,c:n==='Mike'?'#b8860b':_RC[i%_RC.length]}));
 const PAIRS=["Chen & Joyce","Joshua & FJ"]; // sample shared-owner combos; auto-hidden once the roster changes
-function rosterList(){ return (typeof STATE!=='undefined'&&STATE&&Array.isArray(STATE.people)&&STATE.people.length)?STATE.people:PEOPLE; }
+function rosterList(){ const r=(typeof STATE!=='undefined'&&STATE&&Array.isArray(STATE.people)&&STATE.people.length)?STATE.people:PEOPLE; return r.slice().sort((x,y)=>x.n.localeCompare(y.n,undefined,{sensitivity:'base'})); }
 function activePairs(){ return PAIRS.filter(pr=>splitWho(pr).every(n=>rosterList().some(x=>x.n===n))); }
 const _PCOLORS=['#0b7285','#2f6fd0','#b7791f','#3a55d9','#8e44ad','#0e7c86','#6f42c1','#c0392b','#1f7a44','#2E75B6','#c2560f','#b23b6b','#3D7A54','#5c6bc0','#00897b','#d17b0f'];
 function _rosterCopy(){ return rosterList().map(x=>({n:x.n,c:x.c})); }
 function addPersonPrompt(){ const n=clean(prompt('New teammate\u2019s name:')||''); if(!n)return; if(rosterList().some(x=>x.n===n)){ toast(n+' is already on the team'); return; }
   const used=rosterList().map(x=>x.c); const c=_PCOLORS.find(col=>!used.includes(col))||_PCOLORS[rosterList().length%_PCOLORS.length];
   STATE.people=_rosterCopy(); STATE.people.push({n,c}); STATE.peopleMt=Date.now(); persist(); renderTeamManage(); render(); toast(n+' added to the team'); }
-function removePerson(n){ if(!confirm('Remove '+n+' from the team?\n\nTheir projects stay, but they won\u2019t show as a column until reassigned.'))return;
+function removePerson(n){ if(!isAdmin()){ toast('Only Mike can remove teammates.'); return; }
+  if(!confirm('Remove '+n+' from the team?\n\nTheir projects stay, but they won\u2019t show as a column until reassigned.'))return;
   STATE.people=_rosterCopy().filter(x=>x.n!==n); STATE.peopleMt=Date.now(); persist(); renderTeamManage(); render(); toast(n+' removed'); }
 function setPersonColor(n,c){ STATE.people=_rosterCopy().map(x=>x.n===n?{n:x.n,c:c}:x); STATE.peopleMt=Date.now(); persist(); renderTeamManage(); render(); }
 function renderTeamManage(){ const el=document.getElementById('teamManage'); if(!el)return; const list=rosterList();
-  el.innerHTML=list.map(pp=>`<div class="tmrow"><span class="av" style="background:${pp.c}">${esc((pp.n||'?').slice(0,2).toUpperCase())}</span><span class="tmn">${esc(pp.n)}${pp.n===ME?' <span class="tmyou">(you)</span>':''}</span><input type="color" value="${pp.c}" title="Colour" data-v="${esc(pp.n)}" onchange="setPersonColor(this.dataset.v,this.value)">${pp.n===ME?'':`<button class="tmx" title="Remove" data-v="${esc(pp.n)}" onclick="removePerson(this.dataset.v)">\u00d7</button>`}</div>`).join(''); }
+  el.innerHTML=list.map(pp=>`<div class="tmrow"><span class="av" style="background:${pp.c}">${esc((pp.n||'?').slice(0,2).toUpperCase())}</span><span class="tmn">${esc(pp.n)}${pp.n===ME?' <span class="tmyou">(you)</span>':''}</span><input type="color" value="${pp.c}" title="Colour" data-v="${esc(pp.n)}" onchange="setPersonColor(this.dataset.v,this.value)">${(pp.n===ME||!isAdmin())?'':`<button class="tmx" title="Remove" data-v="${esc(pp.n)}" onclick="removePerson(this.dataset.v)">\u00d7</button>`}</div>`).join(''); }
 function clearAllProjects(){ const n=(STATE.items||[]).length; if(!n){ toast('No projects to clear.'); return; }
-  if(!confirm('Delete ALL '+n+' projects so you can start fresh? Their logs go too. (Your team roster stays.)'+((_fileMode||_spMode)?'\n\nThis clears the shared data for everyone.':'')))return;
-  STATE.items.forEach(x=>entomb(x.id)); STATE.items=[]; (STATE.dump||[]).forEach(d=>entomb(d.id)); STATE.dump=[]; persist(); render(); toast('Cleared \u2014 add your real projects with \uFF0B New project'); }
+  if(!isAdmin()){ toast('Only Mike can clear the whole board.'); return; }
+  const t=prompt('This deletes ALL '+n+' projects FOR EVERYONE \u2014 their logs too. A backup file downloads first.\n\nType CLEAR to continue:');
+  if(t===null)return; if((t||'').trim().toUpperCase()!=='CLEAR'){ toast('Nothing was deleted.'); return; }
+  try{ exportData(); }catch(e){}
+  STATE.items.forEach(x=>entomb(x.id)); STATE.items=[]; (STATE.dump||[]).forEach(d=>entomb(d.id)); STATE.dump=[]; persist(); render(); toast('Cleared \u2014 a backup was downloaded. \uFF0B New project to begin'); }
 function splitWho(s){ return String(s||'').split('&').map(x=>x.trim()).filter(Boolean); }
 function hasPerson(s,name){ return splitWho(s).includes(name); }
 function person(n){ return rosterList().find(p=>p.n===n)||{n:n||'?',c:'#8893ad'}; }
@@ -913,7 +917,7 @@ function buildMoves(){
 /* ===================== the start landing ===================== */
 function startMatches(q){ q=q.trim().toLowerCase(); if(!q)return [];
   const res=[];
-  rosterList().filter(x=>x.n!==ME).forEach(x=>{ const i=x.n.toLowerCase().indexOf(q); if(i<0)return; const n=ownedBy(x.n).length;
+  rosterList().forEach(x=>{ const i=x.n.toLowerCase().indexOf(q); if(i<0)return; const n=ownedBy(x.n).length;
     res.push({t:'p',v:x.n,label:x.n,sub:n+' project'+(n===1?'':'s'),rank:(i===0?0:1)}); });
   STATE.items.filter(isOpen).forEach(it=>{ const nm=it.name.toLowerCase(), who=String(it.builder||'').toLowerCase();
     if(nm.indexOf(q)<0 && who.indexOf(q)<0)return;
@@ -942,7 +946,7 @@ function startKey(e){ const box=document.getElementById('sres'); const rows=box?
 function renderStart(){
   const open=STATE.items.filter(isOpen);
   const needN=open.filter(p=>needsMe(p)&&(p.owner||ME)===actor()).length;
-  const ppl=rosterList().filter(x=>x.n!==ME);
+  const ppl=rosterList();
   const pOpts=ppl.map(x=>{ const own=ownedBy(x.n); const nd=own.some(needsMe); return `<option value="${esc(x.n)}">${nd?'● ':''}${esc(x.n)} — ${own.length} project${own.length===1?'':'s'}</option>`; }).join('');
   const prSorted=open.slice().sort((a,b)=>{ const ra=needsMe(a)?0:1, rb=needsMe(b)?0:1; if(ra!==rb)return ra-rb; return a.name.localeCompare(b.name); });
   const prOpts=prSorted.map(it=>`<option value="${it.id}">${needsMe(it)?'● ':''}${esc(it.name)} — ${esc(it.builder||'unassigned')}</option>`).join('');
@@ -966,6 +970,7 @@ function renderStart(){
     <div class="m-h">Or jump to a view</div>
     <div class="viewbtns">
       <button class="vbtn solid" onclick="go('home')">Your moves today<span class="sub">what needs you + the pulse</span></button>
+      ${vw?`<button class="vbtn" data-v="${esc(vw)}" onclick="openPerson(this.dataset.v)">My projects<span class="sub">your page — post updates here</span></button>`:''}
       <button class="vbtn" onclick="goBoard('glance')">Everyone<span class="sub">the whole team at a glance</span></button>
       <button class="vbtn" onclick="goBoard('deal')">By project<span class="sub">one card per project</span></button>
       <button class="vbtn" onclick="goBoard('wall')">The wall<span class="sub">deep columns per person</span></button>
@@ -984,7 +989,7 @@ function renderHome(){
   const open=STATE.items.filter(isOpen);
   const fineN=open.length-new Set(mv.map(m=>m.p.id)).size;
   const nexts=open.map(p=>p.nextCheckin).filter(Boolean).filter(d=>dAgo(d)<0).sort();
-  const needN=open.filter(p=>needsMe(p)&&(p.owner||ME)===actor()).length, quietN=open.filter(goneQuiet).length, newN=newSince();
+  const needN=open.filter(p=>needsMe(p)&&(p.owner||ME)===actor()).length, quietN=open.filter(goneQuiet).length, newN=newSince(), vw=viewerName();
   let h=`<div class="hh"><span class="hi">Your moves today</span><button class="back" onclick="go('start')">← back</button></div>`;
   h+=`<div class="pulseline">${open.length?`<span><b>${open.length}</b> open</span> · ${needN?`<span class="pl-alert"><span class="d"></span><b style="color:var(--alert)">${needN}</b>&nbsp;need you</span>`:'<span class="pl-ok">nothing needs you</span>'} · ${quietN?`<span><b>${quietN}</b> gone quiet</span>`:'<span>all moving</span>'}`:`<span>No projects yet — start with ＋ New project below.</span>`}${newN?`<button class="newpill" onclick="goBoard('activity')" title="See what&#39;s new">${newN} new since ${fmt(BOARDSEEN)}</button>`:''}</div>`;
   if(mv.length){ h+=mv.map(m=>`<div class="move"><span class="what">${m.w}</span>${m.why?`<span class="why">${esc(m.why)}</span>`:''}
@@ -999,7 +1004,7 @@ function renderHome(){
       <select onchange="sendDumpTo('${d.id}',this.value)"><option value="">&rarr; process&hellip;</option>${opts}</select>
       <button class="clr" onclick="clearDump('${d.id}')">&#10003;</button></div>`).join('');
   }
-  const ppl=rosterList().filter(x=>x.n!==ME);
+  const ppl=rosterList();
   const pOpts=ppl.map(x=>{ const own=ownedBy(x.n); const nd=own.some(needsMe); return `<option value="${esc(x.n)}">${nd?'\u25CF ':''}${esc(x.n)} — ${own.length} project${own.length===1?'':'s'}</option>`; }).join('');
   const prSorted=open.slice().sort((a,b)=>{ const ra=needsMe(a)?0:1, rb=needsMe(b)?0:1; if(ra!==rb)return ra-rb; return a.name.localeCompare(b.name); });
   const prOpts=prSorted.map(it=>`<option value="${it.id}">${needsMe(it)?'\u25CF ':''}${esc(it.name)} — ${esc(it.builder||'unassigned')}</option>`).join('');
@@ -1010,6 +1015,7 @@ function renderHome(){
     </div>`; }
   h+=`<div class="m-h">The views</div>
     <div class="viewbtns">
+      ${vw?`<button class="vbtn" data-v="${esc(vw)}" onclick="openPerson(this.dataset.v)">My projects<span class="sub">your page — post updates here</span></button>`:''}
       <button class="vbtn solid" onclick="goBoard('glance')">Everyone<span class="sub">the whole team at a glance</span></button>
       <button class="vbtn" onclick="goBoard('deal')">By project<span class="sub">one card per project</span></button>
       <button class="vbtn" onclick="goBoard('activity')">Activity<span class="sub">latest updates, newest first</span></button>
@@ -1047,7 +1053,7 @@ function renderList(){
   document.getElementById('finefoot').innerHTML=(B.done.length?('<b>'+B.done.length+' signed off</b> · <u onclick="SHOWDONE=!SHOWDONE;render()">'+(SHOWDONE?'hide':'show')+'</u> &nbsp;·&nbsp; '):'')+'<u onclick="addItem()">+ delegate something new</u>';
 }
 function renderTeam(){
-  const roster=rosterList().filter(x=>x.n!==ME);
+  const roster=rosterList();
   let h=`<div class="hh"><span class="hi">The team</span><button class="back" onclick="go('start')">&larr; back</button></div><div class="tgrid">`;
   h+=roster.map(per=>{
     const owned=STATE.items.filter(p=>isOpen(p)&&hasPerson(p.builder,per.n));
@@ -1076,6 +1082,7 @@ let BOARDSORT=(function(){try{return localStorage.getItem('dh_board_sort')||'nee
 let BOARDMODE=(function(){try{return localStorage.getItem('dh_board_mode')||'glance';}catch(e){return 'glance';}})();
 let PERSON=null;
 function actor(){ return (typeof viewerName==='function'&&viewerName())||ME; }
+function isAdmin(){ return (typeof viewerName==='function'&&viewerName())===ME; }
 let BOARDSEEN=(function(){try{let v=localStorage.getItem('dh_board_seen'); if(!v){ v=todayISO; try{localStorage.setItem('dh_board_seen',v);}catch(_){} } return v;}catch(e){return '';}})();
 let MOBSEL=null, COMPOSE=null, FULLFOR=null;
 function ownedBy(name){ return STATE.items.filter(p=>isOpen(p)&&hasPerson(p.builder,name)); }
@@ -1339,6 +1346,9 @@ function scrollToCol(key){ const cols=document.querySelectorAll('.wall .col, .gl
   if(key==='__un'){ const c=document.querySelector('.wall .col.unassigned, .glance .tile.unassigned'); if(c)c.scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'}); return; }
   const idx=ppl.findIndex(p=>p.n===key); if(idx>=0&&cols[idx])cols[idx].scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'}); }
 function saveSheet(id){ const nm=document.querySelector('#sheetBox .snm'); if(nm)editName(id,nm.innerText); const p=I(id); closeSheet(); toast(p&&p.name&&p.name!=='New project'&&p.name!=='Untitled'?('Saved — '+p.name):'Saved'); }
+function deleteProject(id){ const p=I(id); if(!p)return;
+  if(!isAdmin() && (p.owner||ME)!==actor()){ toast('Only '+(p.owner||ME)+' (its owner) or Mike can delete this project.'); return; }
+  if(!confirm('Delete \u201c'+p.name+'\u201d? Its whole log goes too.'))return; delItemQuiet(id); closeSheet(); }
 function commitSheetName(id){ if(SHEETID!==id)return; const box=document.getElementById('sheetBox'); if(!box)return; const nm=box.querySelector('.snm'); if(nm)editName(id,nm.innerText); box.querySelectorAll('.sval[onblur]').forEach(el=>{ const m=(el.getAttribute('onblur')||'').match(/editField\('[^']+','([^']+)'/); if(m)editField(id,m[1],el.innerText); }); }
 
 function render(){
@@ -1406,14 +1416,14 @@ function openSheet(id){ const p=I(id); if(!p){closeSheet();return;} SHEETID=id;
     <button class="sbtn" onclick="logCheckinPrompt('${p.id}')">&#128222; Log check-in</button>
     <button class="sbtn" onclick="quickNoteTo('${p.id}')">+ note</button>
     <button class="sbtn" onclick="nudge('${p.id}')">Nudge${p.nudges.count?' ('+p.nudges.count+')':''}</button>
-    ${!simple?(p.stage==='On hold'?`<button class="sbtn" onclick="setStage('${p.id}','Building')">&#9654; Resume</button>`:'')+`<button class="sbtn warn" onclick="if(confirm('Delete &quot;'+I('${p.id}').name+'&quot;? Its whole log goes too.')){delItemQuiet('${p.id}');closeSheet();}">Delete</button>`:''}
+    ${!simple?(p.stage==='On hold'?`<button class="sbtn" onclick="setStage('${p.id}','Building')">&#9654; Resume</button>`:'')+`<button class="sbtn warn" onclick="deleteProject('${p.id}')">Delete</button>`:''}
   </div>`;
   document.getElementById('sheetBox').innerHTML=s;
   document.getElementById('sheetov').classList.add('on');
 }
 function closeSheet(){ SHEETID=null; document.getElementById('sheetov').classList.remove('on'); render(); }
 function delItemQuiet(id){ const p=I(id); if(!p)return; STATE.items=STATE.items.filter(x=>x.id!==id); entomb(id); persist(); render(); toast('Deleted'); }
-function openGear(){ const u=document.getElementById('cfgMyUrl'); if(u)u.value=CONFIG.myUrl||''; ['spClient','spTenant','spSite'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=CONFIG[f]||''; }); const rd=document.getElementById('spRedir'); if(rd)rd.textContent=spRedirect(); const sb=document.getElementById('spbadge'); if(sb){ sb.textContent=_spMode?'Connected':'Not connected'; sb.classList.toggle('on',_spMode); } renderTeamManage(); fillViewerSel(); document.getElementById('gearov').classList.add('on'); }
+function openGear(){ const u=document.getElementById('cfgMyUrl'); if(u)u.value=CONFIG.myUrl||''; ['spClient','spTenant','spSite'].forEach(f=>{ const el=document.getElementById(f); if(el)el.value=CONFIG[f]||''; }); const rd=document.getElementById('spRedir'); if(rd)rd.textContent=spRedirect(); const sb=document.getElementById('spbadge'); if(sb){ sb.textContent=_spMode?'Connected':'Not connected'; sb.classList.toggle('on',_spMode); } renderTeamManage(); fillViewerSel(); const _adm=isAdmin(); ['clearAllBtn','importBtn'].forEach(i=>{ const el=document.getElementById(i); if(el)el.style.display=_adm?'':'none'; }); document.getElementById('gearov').classList.add('on'); }
 function closeGear(){ document.getElementById('gearov').classList.remove('on'); render(); }
 
 function editField(id,f,v){ const p=I(id); if(!p)return; v=clean(v); if(p[f]===v)return; p[f]=v; touch(p); persist(); }
@@ -1486,7 +1496,7 @@ function saveRound(){ let n=0; document.querySelectorAll('#roundbody input').for
 
 /* ===================== data tab ===================== */
 function exportData(){ const blob=new Blob([JSON.stringify(STATE,null,2)],{type:'application/json'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='team-projects-backup.json'; a.click(); toast('Backup downloaded'); }
-function importData(e){ const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ try{ const s=JSON.parse(r.result);
+function importData(e){ if(!isAdmin()){ toast('Only Mike can restore a backup here.'); e.target.value=''; return; } const f=e.target.files[0]; if(!f)return; const r=new FileReader(); r.onload=()=>{ try{ const s=JSON.parse(r.result);
     if(!Array.isArray(s.items)){ toast(Array.isArray(s.projects)?'That\u2019s a My Projects backup — import it there, not here.':'Could not read that file — needs a Team Hub backup.'); return; }
     if(s.items.length && !('stage' in s.items[0] || 'builder' in s.items[0])){ toast('That file doesn\u2019t look like a Team Hub backup.'); return; }
     if(!confirm('Replace everything here with this backup ('+s.items.length+' processes)?'+(_fileMode?' Your sync file will be overwritten too.':'')))return;
