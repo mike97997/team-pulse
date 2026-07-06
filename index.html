@@ -536,7 +536,7 @@ body.on-start .homebtn{display:none}
     <h3>Your 30-second habit</h3>
     <ol>
       <li><b>Open your page</b> — click your name anywhere, or type it in the search on the home screen.</li>
-      <li><b>＋ Post an update</b> when you make progress — one sentence on where it stands, pick the stage, and paste a link to the work (doc, model, folder, demo).</li>
+      <li><b>＋ Post an update</b> when you make progress — one sentence on where it stands. The newest update always shows on top. (To attach a link or change the stage, click the project card itself.)</li>
       <li>That&rsquo;s it. Posting resets your check-in clock, so nobody has to chase you.</li>
     </ol>
     <h3>Owner &amp; Lead — anyone can start a project</h3>
@@ -1085,6 +1085,7 @@ function actor(){ return (typeof viewerName==='function'&&viewerName())||ME; }
 function isAdmin(){ return (typeof viewerName==='function'&&viewerName())===ME; }
 let BOARDSEEN=(function(){try{let v=localStorage.getItem('dh_board_seen'); if(!v){ v=todayISO; try{localStorage.setItem('dh_board_seen',v);}catch(_){} } return v;}catch(e){return '';}})();
 let MOBSEL=null, COMPOSE=null, FULLFOR=null;
+function ckNewestFirst(cks){ return (cks||[]).map((c,i)=>({c,i})).sort((a,b)=> a.c.d<b.c.d?1:a.c.d>b.c.d?-1:(((b.c.ts||0)-(a.c.ts||0))||(b.i-a.i))).map(x=>x.c); }
 function ownedBy(name){ return STATE.items.filter(p=>isOpen(p)&&hasPerson(p.builder,name)); }
 function colStat(name){ // {open, needs, minQuiet, allSigned}
   const owned=ownedBy(name);
@@ -1142,33 +1143,25 @@ function composerHTML(name){
   const multi=owned.length>1;
   const sel=multi?`<select class="cmp-item" onchange="cmpItemChange(this)">${owned.map(o=>`<option value="${o.id}" ${o.id===def.id?'selected':''}>${esc(o.name)}</option>`).join('')}</select>`:`<input type="hidden" class="cmp-item" value="${def.id}">`;
   const ph=checkinDue(def)?('What’s the latest on '+esc(def.name)+'?'):(def.stage==='Blocked'?'Any movement on the blocker?':('Quick update on '+esc(def.name)+'?'));
-  const stageOpts=STAGES.filter(s=>s!=='Signed off').map(s=>`<option value="${s}" ${s===def.stage?'selected':''}>${s}</option>`).join('');
   return `<div class="compose ${isOpenC?'open':''}">
     <button type="button" class="stub" data-v="${esc(name)}" onclick="openCompose(this.dataset.v)">＋ Post an update…</button>
     <form onsubmit="return false">
       ${sel}
       <textarea class="cmp-note" placeholder="${ph}" onkeydown="cmpKey(event,this)"></textarea>
-      <select class="cmp-stage sset">${stageOpts}</select>
-      <input class="cmp-link" type="url" placeholder="&#128279; Attach a link — doc, folder, model (optional)">
       <div class="crow"><button type="button" class="btn solid" onclick="postUpdate(this)">Post</button><button type="button" class="btn" onclick="closeCompose()">Cancel</button></div>
     </form></div>`;
 }
-function cmpItemChange(sel){ const box=sel.closest('.compose'); const it=I(sel.value); if(!it||!box)return; const ss=box.querySelector('.cmp-stage'); if(ss)ss.value=it.stage; const ta=box.querySelector('.cmp-note'); if(ta&&!ta.value.trim()) ta.placeholder=checkinDue(it)?('What\u2019s the latest on '+it.name+'?'):(it.stage==='Blocked'?'Any movement on the blocker?':('Quick update on '+it.name+'?')); }
+function cmpItemChange(sel){ const box=sel.closest('.compose'); const it=I(sel.value); if(!it||!box)return; const ta=box.querySelector('.cmp-note'); if(ta&&!ta.value.trim()) ta.placeholder=checkinDue(it)?('What\u2019s the latest on '+it.name+'?'):(it.stage==='Blocked'?'Any movement on the blocker?':('Quick update on '+it.name+'?')); }
 function openCompose(name){ COMPOSE=name; render(); setTimeout(()=>{ const forms=[...document.querySelectorAll('.compose.open')]; const t=forms.map(f=>f.querySelector('.cmp-note')).find(el=>el && el.offsetParent!==null); if(t)t.focus(); },30); }
 function closeCompose(){ COMPOSE=null; render(); }
 function cmpKey(e,el){ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); postUpdate(el); } else if(e.key==='Escape'){ e.preventDefault(); closeCompose(); } }
 function postUpdate(el){
   const box=el.closest('.compose'); if(!box)return;
-  const isel=box.querySelector('.cmp-item'); const note=box.querySelector('.cmp-note'); const sst=box.querySelector('.cmp-stage');
+  const isel=box.querySelector('.cmp-item'); const note=box.querySelector('.cmp-note');
   if(!isel||!note)return; const p=I(isel.value); const t=clean(note.value); if(!p||!t)return;
-  const chosen=sst?sst.value:p.stage;
-  if(chosen!==p.stage){ const regress=(p.stage==='Confirm round'||p.stage==='My sign-off'||p.stage==='Signed off')&&(chosen==='Handed off'||chosen==='Building'||chosen==='Blocked'); p.stage=chosen; if(regress)p.revOk=false; }
-  if(chosen==='Blocked' && !p.openq) p.openq=t;
-  const lkEl=box.querySelector('.cmp-link'); const lu=lkEl?normUrl(lkEl.value):'';
-  const ck={d:todayISO,t,s:chosen}; if(lu){ ck.link=lu; if(!Array.isArray(p.links))p.links=[]; p.links.unshift({u:lu,label:'',d:todayISO}); }
-  p.checkins.push(ck);
+  p.checkins.push({d:todayISO,t,s:p.stage,ts:Date.now()});
   p.nextCheckin=addDaysISO(p.cadence); p.nudges={count:0,last:''};
-  touch(p); moveBall(p); COMPOSE=null; persist(); render(); toast(lu?('Update + link posted to '+p.name):('Update posted to '+p.name));
+  touch(p); moveBall(p); COMPOSE=null; persist(); render(); toast('Update posted to '+p.name);
 }
 function colHTML(person){
   const name=person.n; const st=colStat(name); const {cards,total}=colCards(name);
@@ -1232,7 +1225,7 @@ function unassignedTileHTML(){ const items=unassignedItems(); if(!items.length)r
 }
 function personProjectHTML(it){
   const need=needsMe(it), quiet=!need&&goneQuiet(it);
-  const cks=(it.checkins||[]).slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0); const show=cks.slice(0,3);
+  const cks=ckNewestFirst(it.checkins); const show=cks.slice(0,3);
   let upd;
   if(show.length){ upd=`<div class="ppupds">`+show.map((c,i)=>{ const dstr=c.d===todayISO?'TODAY':fmt(c.d); const isNew=BOARDSEEN&&c.d>BOARDSEEN; const over=i===0&&(it.stage!=='On hold')&&checkinDue(it);
       return `<div class="ucard"><div class="meta"><span class="stat">${esc(c.s||it.stage)}</span><span class="dt ${over?'over':''}">${isNew?'<span class="new"></span>':''}${dstr}</span></div><div class="nt">${esc(c.t)}</div></div>`; }).join('')+`</div>`;
@@ -1263,7 +1256,7 @@ function setBoardMode(m){ BOARDMODE=m; try{localStorage.setItem('dh_board_mode',
 
 /* ---- extra lenses: By deal + Activity ---- */
 function boardItem(it){ return isOpen(it); }
-function latestCk(it){ const cks=(it.checkins||[]); if(!cks.length)return null; return cks.slice().sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0)[0]; }
+function latestCk(it){ const cks=ckNewestFirst(it.checkins); return cks.length?cks[0]:null; }
 function ownerAvs(it){ const os=splitWho(it.builder); if(!os.length) return `<span class="av" style="background:#c8cdd8" title="Unassigned">?</span>`;
   return os.map(n=>{const pp=person(n); return `<span class="av" style="background:${pp.c};cursor:pointer" title="Open ${esc(n)}" data-v="${esc(n)}" onclick="event.stopPropagation();openPerson(this.dataset.v)">${esc(n.slice(0,2).toUpperCase())}</span>`;}).join(''); }
 function openDeals(){
@@ -1294,8 +1287,8 @@ function dealTileHTML(it){
     <div class="tb">${body}</div>${linkRow(it)}</div>`;
 }
 function activityFeed(){ let all=[];
-  STATE.items.filter(boardItem).forEach(it=>(it.checkins||[]).forEach(c=>all.push({it,d:c.d,t:c.t,s:c.s})));
-  all.sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:0); return all.slice(0,14); }
+  STATE.items.filter(boardItem).forEach(it=>(it.checkins||[]).forEach((c,i)=>all.push({it,d:c.d,t:c.t,s:c.s,ts:c.ts||0,i})));
+  all.sort((a,b)=>a.d<b.d?1:a.d>b.d?-1:((b.ts-a.ts)||(b.i-a.i))); return all.slice(0,14); }
 function activityHTML(){ const feed=activityFeed();
   if(!feed.length) return `<div class="afeed"><div class="tempty">No updates yet.</div></div>`;
   let out='', last=null;
@@ -1380,7 +1373,7 @@ function removeLink(id,i){ const p=I(id); if(!p||!Array.isArray(p.links))return;
 
 function openSheet(id){ const p=I(id); if(!p){closeSheet();return;} SHEETID=id;
   const simple=(FULLFOR===id)?false:(DENS!=='full');
-  const notes=[...(p.notes||[]).map(n=>({...n,k:''})),...(p.checkins||[]).map(n=>({...n,k:'📞 '}))].sort((a,b)=>a.d<b.d?1:-1);
+  const notes=[...(p.notes||[]).map(n=>({...n,k:''})),...(p.checkins||[]).map(n=>({...n,k:'📞 '}))].sort((a,b)=> a.d<b.d?1:a.d>b.d?-1:((b.ts||0)-(a.ts||0)));
   const bOpts=n=>rosterList().map(x=>x.n).concat(activePairs()).map(x=>`<option ${x===n?'selected':''}>${x}</option>`).join(''); const oOpts=n=>'<option value="">— owner —</option>'+rosterList().map(x=>`<option ${x.n===n?'selected':''}>${x.n}</option>`).join('');
   const h=ballHolder(p);
   let s=`<button class="x" onclick="closeSheet()">&times;</button>
@@ -1447,7 +1440,7 @@ function addItem(lead){ const np=seedItem('New project','',lead||'','',''); np.n
 /* ===================== management moves ===================== */
 function startClock(id){ const p=I(id); if(!p)return; p.nextCheckin=addDaysISO(p.cadence); touch(p,false); persist(); render(); toast('Check-in clock started — first one '+fmt(p.nextCheckin)); }
 function logCheckinPrompt(id){ const p=I(id); if(!p)return; const t=prompt('What did '+(p.builder||'they')+' report? (1–2 lines — this becomes the memory)'); if(t==null)return; const v=clean(t); if(!v)return;
-  p.checkins.push({d:todayISO,t:v,s:p.stage}); p.nextCheckin=addDaysISO(p.cadence); p.nudges={count:0,last:''}; touch(p); moveBall(p); persist(); render(); toast('Check-in logged — next one '+fmt(p.nextCheckin)); }
+  p.checkins.push({d:todayISO,t:v,s:p.stage,ts:Date.now()}); p.nextCheckin=addDaysISO(p.cadence); p.nudges={count:0,last:''}; touch(p); moveBall(p); persist(); render(); toast('Check-in logged — next one '+fmt(p.nextCheckin)); }
 function nudge(id){ const p=I(id); if(!p)return; p.nudges.count++; p.nudges.last=todayISO; if(!p.nextCheckin)p.nextCheckin=addDaysISO(2);
   p.notes.push({d:todayISO,t:'Nudged '+(p.builder||'owner')+' (#'+p.nudges.count+')',c:false}); touch(p,false); persist(); render();
   toast(p.nudges.count>=NUDGE_ESCALATE?'Logged. '+p.nudges.count+' nudges now — time to call or reassign.':'Nudge logged — now actually send them the message 😉'); }
@@ -1491,7 +1484,7 @@ function openRound(){ const items=roundList(); const b=document.getElementById('
   document.getElementById('roundmodal').classList.add('on'); }
 function closeRound(){ document.getElementById('roundmodal').classList.remove('on'); }
 function saveRound(){ let n=0; document.querySelectorAll('#roundbody input').forEach(inp=>{ const p=I(inp.dataset.id); if(!p)return; const v=clean(inp.value); if(!v)return;
-  p.checkins.push({d:todayISO,t:v,s:p.stage}); p.nextCheckin=addDaysISO(p.cadence); p.nudges={count:0,last:''}; touch(p); moveBall(p); n++; });
+  p.checkins.push({d:todayISO,t:v,s:p.stage,ts:Date.now()}); p.nextCheckin=addDaysISO(p.cadence); p.nudges={count:0,last:''}; touch(p); moveBall(p); n++; });
   persist(); closeRound(); render(); toast(n?('Round saved — '+n+' check-in'+(n>1?'s':'')+' logged 📞'):'Round closed — nothing logged'); }
 
 /* ===================== data tab ===================== */
